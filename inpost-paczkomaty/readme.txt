@@ -1,11 +1,11 @@
 === Inpost Paczkomaty ===
 Contributors: rimosfafora
-Donate link:
+Donate link: https://suppi.pl/damian-ziarnik
 Tags: inpost, paczkomaty
 Requires at least: 5.3
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.35
+Stable tag: 1.0.36
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
  
@@ -14,6 +14,8 @@ Umożliwia dodanie Paczkomaty Inpost jako forma dostawy produktów. Zawiera mapk
 == Description ==
 
 Wtyczka umożliwia dodanie Paczkomatów Inpost jako forma dostawy w Woocoommerce. Zawiera mapkę gdzie można wybrać paczkomat w którym chce się odebrać przesyłkę. Wskazany paczkomat jest dodawany do zamówienia w panelu. Wtyczka jest bardzo prosta i intuicyjna dla każdego użytkownika.
+
+
 
 
 == Screenshots ==
@@ -70,6 +72,11 @@ Przejdź do WooCommerce -> Inpost Paczkomaty i zaznacz checkbox "I want to use l
 Upewnij się, że checkbox "I want to use legacy (PHP) cart/checkout" w ustawieniach wtyczki (WooCommerce -> Inpost Paczkomaty) jest odznaczony. Selektor paczkomatu pojawi się automatycznie w sekcji wysyłki bloku checkout po wybraniu formy dostawy InPost Paczkomaty – nie musisz nic dodawać ręcznie w edytorze strony.
 
 == Changelog ==
+
+= 1.0.36 =
+* Poprawa powiadomienia w panelu administracyjnym – nowy układ z linkami do oceny, wsparcia projektu i płatnego wsparcia technicznego.
+* Uzupełnienie i poprawienie polskich tłumaczeń dla wszystkich nowych ciągów dodanych w wersji 1.0.35 (tryb blokowy, ustawienia checkboxu, limit wagi).
+* Dodanie sekcji Wsparcie w pliku readme.
 
 = 1.0.35 =
 * Dodanie obsługi nowego blokowego koszyka i checkoutu WooCommerce (WooCommerce Blocks).
@@ -219,3 +226,14 @@ Upewnij się, że checkbox "I want to use legacy (PHP) cart/checkout" w ustawien
 * Mapka do paczkomatów w koszyku oraz checkoucie.
 * Zapisywanie do panelu.
 * Zapamiętywanie ostatniego wybranego paczkomatu.
+
+
+== Support ==
+
+Wtyczka jest darmowa i rozwijana w moim wolnym czasie.
+Jeśli pomogła Ci zaoszczędzić czas lub zarobić pieniądze, możesz wesprzeć jej dalszy rozwój.
+
+* [Wesprzyj rozwój wtyczki ☕](https://suppi.pl/damian-ziarnik)
+* [Płatne wsparcie techniczne 🛠️](https://grainsoft.pl/#contact)
+
+Dziękuję za korzystanie z wtyczki!

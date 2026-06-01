@@ -526,8 +526,26 @@ function review_plugin_admin_notice__success() {
 		return;
 	}
 	?>
-    <div class="notice notice-success is-dismissible">
-        <p><?php _e( "Thank you very much for using my plugin! If you like it and you're satisfied, please leave a review <a href='https://wordpress.org/support/plugin/inpost-paczkomaty/reviews/'>Here</a>. ", 'inpost-paczkomaty' ) ?></p>
+    <div class="notice notice-info is-dismissible">
+        <p>
+            <?php esc_html_e( 'Thank you for using my plugin', 'inpost-paczkomaty' ); ?> ❤️
+            <?php esc_html_e( 'It is free and developed in my spare time.', 'inpost-paczkomaty' ); ?>
+        </p>
+        <p>
+            ⭐ <a href="https://wordpress.org/support/plugin/inpost-paczkomaty/reviews/" target="_blank" rel="noopener noreferrer">
+                <?php esc_html_e( 'Leave a review', 'inpost-paczkomaty' ); ?>
+            </a>
+            <br>
+
+            ☕ <a href="https://suppi.pl/damian-ziarnik" target="_blank" rel="noopener noreferrer">
+                <?php esc_html_e( 'Support plugin development', 'inpost-paczkomaty' ); ?>
+            </a>
+            <br>
+
+            🛠️ <a href="https://grainsoft.pl/#contact" target="_blank" rel="noopener noreferrer">
+                <?php esc_html_e( 'Need help with setup? Paid support available.', 'inpost-paczkomaty' ); ?>
+            </a>
+        </p>
     </div>
 	<?php
 }

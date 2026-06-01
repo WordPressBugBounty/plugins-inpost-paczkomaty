@@ -207,3 +207,48 @@ msgstr "Co zrobić, jeśli wszystkie przedmioty przekraczają limit wagi"
 #: admin/admin.php:334
 msgid "Yes"
 msgstr "Tak"
+
+#: admin/admin.php
+msgid "I want to use legacy (PHP) cart/checkout"
+msgstr "Chcę używać klasycznego (PHP) koszyka i checkoutu"
+
+#: admin/admin.php
+msgid "When checked, the plugin uses the classic PHP shortcode-based cart and checkout (woocommerce_cart / woocommerce_checkout shortcodes). When unchecked, the plugin integrates with the modern WooCommerce block-based cart and checkout."
+msgstr "Gdy zaznaczone, wtyczka używa klasycznego koszyka i checkoutu opartego na shortcode'ach ([woocommerce_cart] / [woocommerce_checkout]). Gdy odznaczone, wtyczka integruje się z nowoczesnym koszykiem i checkoutem blokowym WooCommerce."
+
+#: admin/admin.php
+msgid "Max weight (%s)"
+msgstr "Maksymalna waga (%s)"
+
+#: admin/admin.php
+msgid "Enter the value in %s – the same unit configured in WooCommerce settings. Current WooCommerce weight unit: %s."
+msgstr "Wpisz wartość w %s – tej samej jednostce co w ustawieniach WooCommerce. Aktualna jednostka wagi WooCommerce: %s."
+
+#: admin/admin.php
+msgid "Thank you for using my plugin"
+msgstr "Dziękuję za korzystanie z mojej wtyczki"
+
+#: admin/admin.php
+msgid "It is free and developed in my spare time."
+msgstr "Wtyczka jest darmowa i rozwijana w wolnym czasie."
+
+#: admin/admin.php
+msgid "Leave a review"
+msgstr "Oceń wtyczkę"
+
+#: admin/admin.php
+msgid "Support plugin development"
+msgstr "Wesprzyj rozwój wtyczki"
+
+#: admin/admin.php
+msgid "Support further development"
+msgstr "Wesprzyj rozwój wtyczki"
+
+#: admin/admin.php
+msgid "Need help with setup? Paid support available."
+msgstr "Potrzebujesz pomocy z konfiguracją? Oferuję płatne wsparcie."
+
+#: admin/admin.php
+msgid "Need help configuring WooCommerce or this plugin? I offer paid support."
+msgstr "Potrzebujesz pomocy z konfiguracją WooCommerce lub tej wtyczki? Oferuję płatne wsparcie."
+
