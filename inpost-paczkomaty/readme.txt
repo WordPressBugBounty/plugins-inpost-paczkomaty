@@ -3,9 +3,9 @@ Contributors: rimosfafora
 Donate link:
 Tags: inpost, paczkomaty
 Requires at least: 5.3
-Tested up to: 6.4.1
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.34
+Stable tag: 1.0.35
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
  
@@ -59,9 +59,28 @@ Należy wejść do panelu administratora -> woocommerce -> inpost paczkomaty i u
 
 = Pojawia mi się forma dostawy, lecz nie pojawia się przycisk "wybierz paczkomat", co mogę zrobić? =
 
-Od jakiegoś czasu Woocommerce testuje bloki gutenbergowe w koszykach i kasach. Aby ustawić klasyczny koszyk należy przejść w panelu admina do: Woocommerce->inpost paczkomaty a następnie na dole nacisnąć przycisk przywróć przy "Przywróć klasyczny widok koszyka i kasy". Nadpisze to obecne ustawienia koszyka oraz checkoutu dlatego zaleca się wcześniej zrobienia kopii zapasowej.
+Od wersji 1.0.35 wtyczka obsługuje zarówno klasyczny koszyk/checkout (shortcode) jak i nowy blokowy koszyk/checkout WooCommerce. Przejdź do panelu admina: WooCommerce -> Inpost Paczkomaty i upewnij się, że opcja "I want to use legacy (PHP) cart/checkout" jest ustawiona zgodnie z typem koszyka którego używasz – zaznaczona dla klasycznego shortcode, odznaczona dla blokowego.
+
+= Używam starego (klasycznego) koszyka / checkoutu opartego na shortcode – co zrobić? =
+
+Przejdź do WooCommerce -> Inpost Paczkomaty i zaznacz checkbox "I want to use legacy (PHP) cart/checkout". Jeśli strony koszyka i checkoutu zostały zmienione na bloki, możesz je przywrócić do wersji shortcode klikając przycisk "Przywróć" przy opcji "Przywróć klasyczny widok koszyka i kasy" (uwaga: zaleca się wcześniej wykonać kopię zapasową).
+
+= Używam nowego blokowego koszyka / checkoutu WooCommerce – co zrobić? =
+
+Upewnij się, że checkbox "I want to use legacy (PHP) cart/checkout" w ustawieniach wtyczki (WooCommerce -> Inpost Paczkomaty) jest odznaczony. Selektor paczkomatu pojawi się automatycznie w sekcji wysyłki bloku checkout po wybraniu formy dostawy InPost Paczkomaty – nie musisz nic dodawać ręcznie w edytorze strony.
 
 == Changelog ==
+
+= 1.0.35 =
+* Dodanie obsługi nowego blokowego koszyka i checkoutu WooCommerce (WooCommerce Blocks).
+* Nowy checkbox w ustawieniach: "I want to use legacy (PHP) cart/checkout" – pozwala wybrać tryb klasyczny (shortcode) lub blokowy.
+* W trybie blokowym: selektor paczkomatu pojawia się automatycznie w sekcji wysyłki bloku checkout/cart po wybraniu formy dostawy InPost Paczkomaty.
+* Integracja z WooCommerce Blocks API (IntegrationInterface, ExperimentalOrderShippingPackages) – skrypt ładowany przez wp_enqueue_scripts jako fallback dla starszych wersji WC Blocks.
+* Zapis danych paczkomatu do zamówienia przez hook Store API (woocommerce_store_api_checkout_order_processed) z fallbackiem na woocommerce_checkout_order_created.
+* Przełączenie z add_meta_data na update_meta_data – poprawna obsługa HPOS (High-Performance Order Storage).
+* Przywrócenie wybranego paczkomatu po odświeżeniu strony (AJAX get_paczkomat_session odczytuje dane z sesji PHP).
+* Podział kodu na osobne pliki: includes/checkout-legacy.php (tryb klasyczny) i includes/checkout-blocks.php (tryb blokowy).
+* Walidacja brakującego paczkomatu w trybie blokowym przez RouteException (Store API).
 
 = 1.0.34 =
 * Poprawa ustawień dotyczących limitów wymiarów oraz wagi.

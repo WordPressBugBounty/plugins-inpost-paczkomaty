@@ -13,6 +13,18 @@ function inpost_settings_init() {
 		'inpost_paczkomaty_settings'
 	);
 
+	// Checkout mode: legacy PHP shortcode or modern WooCommerce blocks.
+	add_settings_field(
+		'ip_use_legacy_checkout',
+		__( 'I want to use legacy (PHP) cart/checkout', 'inpost-paczkomaty' ),
+		'ip_use_legacy_checkout_cb',
+		'inpost_paczkomaty_settings',
+		'inpost_section_developers',
+		array(
+			'label_for' => 'ip_use_legacy_checkout',
+		)
+	);
+
 	// Register a new field in the "inpost_section_developers" section, inside the "inpost_paczkomaty_settings" page.
 	add_settings_field(
 		'ip_selected_as_shipping', // As of WP 4.6 this value is used only internally.
@@ -145,6 +157,35 @@ function inpost_settings_init() {
  */
 add_action( 'admin_init', 'inpost_settings_init' );
 
+
+/**
+ * Callback for the "Use legacy (PHP) cart/checkout" checkbox field.
+ * When checked the plugin uses the classic shortcode-based cart/checkout.
+ * When unchecked the plugin integrates with the WooCommerce block-based checkout.
+ *
+ * @param array $args Field arguments from add_settings_field().
+ */
+function ip_use_legacy_checkout_cb( $args ) {
+	$options = get_option( 'inpost_paczkomaty_options' );
+
+	// Default to 'no' (block mode) when option has never been saved.
+	$current_value = isset( $options[ $args['label_for'] ] ) ? $options[ $args['label_for'] ] : 'no';
+	$is_checked    = ( $current_value !== 'no' );
+	?>
+    <!-- Hidden field ensures 'no' is submitted when checkbox is unchecked -->
+    <input type="hidden"
+           name="inpost_paczkomaty_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+           value="no">
+    <input type="checkbox"
+           id="<?php echo esc_attr( $args['label_for'] ); ?>"
+           name="inpost_paczkomaty_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+           value="yes"
+		<?php checked( $is_checked, true ); ?>>
+    <p class="description">
+		<?php esc_html_e( 'When checked, the plugin uses the classic PHP shortcode-based cart and checkout (woocommerce_cart / woocommerce_checkout shortcodes). When unchecked, the plugin integrates with the modern WooCommerce block-based cart and checkout.', 'inpost-paczkomaty' ); ?>
+    </p>
+	<?php
+}
 
 /**
  * Developers section callback function.
