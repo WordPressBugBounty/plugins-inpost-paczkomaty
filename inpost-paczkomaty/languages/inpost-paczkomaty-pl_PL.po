@@ -252,3 +252,32 @@ msgstr "Potrzebujesz pomocy z konfiguracją? Oferuję płatne wsparcie."
 msgid "Need help configuring WooCommerce or this plugin? I offer paid support."
 msgstr "Potrzebujesz pomocy z konfiguracją WooCommerce lub tej wtyczki? Oferuję płatne wsparcie."
 
+#: admin/admin.php
+msgid "Checkout mode (auto-detected)"
+msgstr "Tryb checkout (wykryty automatycznie)"
+
+#: admin/admin.php
+msgid "✅ Block checkout (WooCommerce Blocks)"
+msgstr "✅ Block checkout (WooCommerce Blocks)"
+
+#: admin/admin.php
+msgid "The checkout and/or cart page uses WooCommerce block editor blocks. The paczkomat selector will appear automatically in the shipping section when InPost Paczkomaty is selected."
+msgstr "Strona checkoutu i/lub koszyka używa bloków WooCommerce. Selektor paczkomatu pojawi się automatycznie w sekcji wysyłki po wybraniu metody InPost Paczkomaty."
+
+#: admin/admin.php
+msgid "🔷 Classic checkout (shortcode)"
+msgstr "🔷 Classic checkout (shortcode)"
+
+#: admin/admin.php
+msgid ""
+"The checkout and cart pages use classic shortcodes ([woocommerce_checkout] / "
+"[woocommerce_cart]). The paczkomat selector is injected via PHP hooks. To "
+"switch to block checkout, replace the page content with WooCommerce Blocks "
+"in the editor, or use the \"Restore\" button below to switch back to classic "
+"checkout."
+msgstr ""
+"Strony checkoutu i koszyka uzywaja klasycznych shortcode'ow "
+"([woocommerce_checkout] / [woocommerce_cart]). Selektor paczkomatu jest "
+"wstrzykiwany przez hooki PHP. Aby przelaczych na block checkout, zastap "
+"zawartosc strony blokami WooCommerce w edytorze lub uzyj przycisku "
+"\"Przywroc\" ponizej."

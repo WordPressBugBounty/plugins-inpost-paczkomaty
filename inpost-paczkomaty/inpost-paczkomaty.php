@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Inpost Paczkomaty
  * Description: Plugin do obsługi paczkomatów inpost w woocommerce.
- * Version: 1.0.36
+ * Version: 1.0.37
  * Author: Damian Ziarnik
  * Author URI: https://grainsoft.pl/
  * Text Domain: inpost-paczkomaty
@@ -27,12 +27,34 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	define( 'INPOST_PACZKOMATY_PLUGIN_URL', plugins_url( '', __FILE__ ) );
 	define( 'INPOST_PACZKOMATY_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
-	// Resolve checkout mode. Default: block mode for new installations (option not yet saved).
-	// Sites that previously saved 'yes' explicitly continue to use legacy mode.
-	$_ip_options    = get_option( 'inpost_paczkomaty_options' );
-	$_ip_legacy_raw = isset( $_ip_options['ip_use_legacy_checkout'] ) ? $_ip_options['ip_use_legacy_checkout'] : 'no';
-	define( 'INPOST_PACZKOMATY_LEGACY_MODE', ( $_ip_legacy_raw !== 'no' ) );
-	unset( $_ip_options, $_ip_legacy_raw );
+	/**
+	 * Auto-detect checkout mode by inspecting the WooCommerce cart and checkout
+	 * pages. If either page contains a WooCommerce block editor block
+	 * (woocommerce/checkout or woocommerce/cart) the plugin runs in block checkout mode.
+	 * Otherwise it falls back to classic checkout mode (shortcode-based).
+	 *
+	 * @return bool True = classic checkout (shortcode), false = block checkout.
+	 */
+	function inpost_paczkomaty_detect_classic_checkout() {
+		$checkout_page_id = (int) get_option( 'woocommerce_checkout_page_id' );
+		$cart_page_id     = (int) get_option( 'woocommerce_cart_page_id' );
+
+		$checkout_post = $checkout_page_id > 0 ? get_post( $checkout_page_id ) : null;
+		$cart_post     = $cart_page_id > 0     ? get_post( $cart_page_id )     : null;
+
+		$checkout_has_block = $checkout_post && has_block( 'woocommerce/checkout', $checkout_post );
+		$cart_has_block     = $cart_post     && has_block( 'woocommerce/cart',     $cart_post );
+
+		// If either page uses WooCommerce Blocks → block checkout mode.
+		if ( $checkout_has_block || $cart_has_block ) {
+			return false;
+		}
+
+		// No WooCommerce Blocks detected → classic checkout (shortcode) mode.
+		return true;
+	}
+
+	define( 'INPOST_PACZKOMATY_CLASSIC_CHECKOUT', inpost_paczkomaty_detect_classic_checkout() );
 
 	// -------------------------------------------------------------------------
 	// Shipping method class – shared between both checkout modes.
@@ -535,7 +557,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 
 	// -------------------------------------------------------------------------
 	// AJAX handler – saves the selected paczkomat to the WooCommerce session.
-	// Shared by both legacy and block checkout modes.
+	// Shared by both classic checkout and block checkout modes.
 	// -------------------------------------------------------------------------
 
 	add_action( 'wp_ajax_set_paczkomat', 'inpost_paczkomaty_set_paczkomat' );
@@ -647,13 +669,13 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	}
 
 	// -------------------------------------------------------------------------
-	// Load the correct checkout integration file based on the configured mode.
-	//   Legacy mode  → includes/checkout-legacy.php
-	//   Block mode   → includes/checkout-blocks.php
+	// Load the correct checkout integration file based on the detected mode.
+	//   Classic checkout → includes/checkout-classic.php
+	//   Block checkout   → includes/checkout-blocks.php
 	// -------------------------------------------------------------------------
 
-	if ( INPOST_PACZKOMATY_LEGACY_MODE ) {
-		require_once INPOST_PACZKOMATY_PLUGIN_PATH . 'includes/checkout-legacy.php';
+	if ( INPOST_PACZKOMATY_CLASSIC_CHECKOUT ) {
+		require_once INPOST_PACZKOMATY_PLUGIN_PATH . 'includes/checkout-classic.php';
 	} else {
 		require_once INPOST_PACZKOMATY_PLUGIN_PATH . 'includes/checkout-blocks.php';
 	}

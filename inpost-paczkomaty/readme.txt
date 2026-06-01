@@ -5,7 +5,7 @@ Tags: inpost, paczkomaty
 Requires at least: 5.3
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.36
+Stable tag: 1.0.37
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
  
@@ -72,6 +72,14 @@ Przejdź do WooCommerce -> Inpost Paczkomaty i zaznacz checkbox "I want to use l
 Upewnij się, że checkbox "I want to use legacy (PHP) cart/checkout" w ustawieniach wtyczki (WooCommerce -> Inpost Paczkomaty) jest odznaczony. Selektor paczkomatu pojawi się automatycznie w sekcji wysyłki bloku checkout po wybraniu formy dostawy InPost Paczkomaty – nie musisz nic dodawać ręcznie w edytorze strony.
 
 == Changelog ==
+
+= 1.0.37 =
+* Automatyczne wykrywanie trybu checkout (classic checkout / block checkout) na podstawie zawartości strony koszyka i checkoutu – bez potrzeby ręcznego ustawiania checkboxa.
+* Usunięcie checkboxa "I want to use legacy (PHP) cart/checkout" – tryb jest teraz wybierany automatycznie.
+* Nowy badge w panelu ustawień informujący o aktualnie wykrytym trybie: "Classic checkout (shortcode)" lub "Block checkout (WooCommerce Blocks)".
+* Zmiana terminologii w kodzie: "legacy" → "classic checkout", "block mode" → "block checkout".
+* Zmiana nazwy pliku includes/checkout-legacy.php na includes/checkout-classic.php.
+* Uzupełnienie polskich tłumaczeń dla nowych ciągów (auto-detect, nazwy trybów).
 
 = 1.0.36 =
 * Poprawa powiadomienia w panelu administracyjnym – nowy układ z linkami do oceny, wsparcia projektu i płatnego wsparcia technicznego.

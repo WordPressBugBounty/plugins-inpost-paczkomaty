@@ -13,16 +13,13 @@ function inpost_settings_init() {
 		'inpost_paczkomaty_settings'
 	);
 
-	// Checkout mode: legacy PHP shortcode or modern WooCommerce blocks.
+	// Detected checkout mode info (read-only, auto-detected from page content).
 	add_settings_field(
-		'ip_use_legacy_checkout',
-		__( 'I want to use legacy (PHP) cart/checkout', 'inpost-paczkomaty' ),
-		'ip_use_legacy_checkout_cb',
+		'ip_detected_checkout_mode',
+		__( 'Checkout mode (auto-detected)', 'inpost-paczkomaty' ),
+		'ip_detected_checkout_mode_cb',
 		'inpost_paczkomaty_settings',
-		'inpost_section_developers',
-		array(
-			'label_for' => 'ip_use_legacy_checkout',
-		)
+		'inpost_section_developers'
 	);
 
 	// Register a new field in the "inpost_section_developers" section, inside the "inpost_paczkomaty_settings" page.
@@ -159,31 +156,37 @@ add_action( 'admin_init', 'inpost_settings_init' );
 
 
 /**
- * Callback for the "Use legacy (PHP) cart/checkout" checkbox field.
- * When checked the plugin uses the classic shortcode-based cart/checkout.
- * When unchecked the plugin integrates with the WooCommerce block-based checkout.
- *
- * @param array $args Field arguments from add_settings_field().
+ * Read-only field showing the auto-detected checkout mode.
+ * The mode is determined by inspecting whether the WooCommerce cart/checkout
+ * pages use the block editor (woocommerce/checkout, woocommerce/cart blocks)
+ * or the classic shortcode-based layout.
  */
-function ip_use_legacy_checkout_cb( $args ) {
-	$options = get_option( 'inpost_paczkomaty_options' );
+function ip_detected_checkout_mode_cb() {
+	$checkout_page_id = (int) get_option( 'woocommerce_checkout_page_id' );
+	$cart_page_id     = (int) get_option( 'woocommerce_cart_page_id' );
 
-	// Default to 'no' (block mode) when option has never been saved.
-	$current_value = isset( $options[ $args['label_for'] ] ) ? $options[ $args['label_for'] ] : 'no';
-	$is_checked    = ( $current_value !== 'no' );
+	$checkout_post = $checkout_page_id > 0 ? get_post( $checkout_page_id ) : null;
+	$cart_post     = $cart_page_id > 0     ? get_post( $cart_page_id )     : null;
+
+	$checkout_has_block = $checkout_post && has_block( 'woocommerce/checkout', $checkout_post );
+	$cart_has_block     = $cart_post     && has_block( 'woocommerce/cart',     $cart_post );
+
+	$is_block_mode = $checkout_has_block || $cart_has_block;
+
+	if ( $is_block_mode ) {
+		$badge_color = '#00a32a';
+		$label       = __( '✅ Block checkout (WooCommerce Blocks)', 'inpost-paczkomaty' );
+		$description = __( 'The checkout and/or cart page uses WooCommerce block editor blocks. The paczkomat selector will appear automatically in the shipping section when InPost Paczkomaty is selected.', 'inpost-paczkomaty' );
+	} else {
+		$badge_color = '#2271b1';
+		$label       = __( '🔷 Classic checkout (shortcode)', 'inpost-paczkomaty' );
+		$description = __( 'The checkout and cart pages use classic shortcodes ([woocommerce_checkout] / [woocommerce_cart]). The paczkomat selector is injected via PHP hooks. To switch to block checkout, replace the page content with WooCommerce Blocks in the editor, or use the "Restore" button below to switch back to classic checkout.', 'inpost-paczkomaty' );
+	}
 	?>
-    <!-- Hidden field ensures 'no' is submitted when checkbox is unchecked -->
-    <input type="hidden"
-           name="inpost_paczkomaty_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
-           value="no">
-    <input type="checkbox"
-           id="<?php echo esc_attr( $args['label_for'] ); ?>"
-           name="inpost_paczkomaty_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
-           value="yes"
-		<?php checked( $is_checked, true ); ?>>
-    <p class="description">
-		<?php esc_html_e( 'When checked, the plugin uses the classic PHP shortcode-based cart and checkout (woocommerce_cart / woocommerce_checkout shortcodes). When unchecked, the plugin integrates with the modern WooCommerce block-based cart and checkout.', 'inpost-paczkomaty' ); ?>
-    </p>
+    <span style="display:inline-block; padding: 4px 10px; border-radius: 4px; background: <?php echo esc_attr( $badge_color ); ?>; color: #fff; font-weight: 600;">
+        <?php echo esc_html( $label ); ?>
+    </span>
+    <p class="description"><?php echo esc_html( $description ); ?></p>
 	<?php
 }
 

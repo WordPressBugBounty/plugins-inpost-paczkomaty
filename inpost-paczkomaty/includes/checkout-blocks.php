@@ -2,7 +2,7 @@
 /**
  * WooCommerce Blocks checkout integration for InPost Paczkomaty.
  *
- * Loaded only when INPOST_PACZKOMATY_LEGACY_MODE is false (block-based cart/checkout).
+ * Loaded only when INPOST_PACZKOMATY_CLASSIC_CHECKOUT is false (block checkout).
  * Registers the JS integration via IntegrationInterface and handles
  * order validation + meta saving through the Store API hook.
  */
@@ -147,7 +147,7 @@ function inpost_paczkomaty_blocks_checkout_order_processed( $order ) {
 // ---------------------------------------------------------------------------
 // Fallback hook: woocommerce_checkout_order_created fires for block checkout
 // in WooCommerce 5.0+ even when the Store API hook doesn't fire.
-// Only runs in REST context to avoid double-saving with legacy mode.
+// Only runs in REST context to avoid double-saving with classic checkout mode.
 // ---------------------------------------------------------------------------
 
 add_action( 'woocommerce_checkout_order_created', function ( $order ) {
