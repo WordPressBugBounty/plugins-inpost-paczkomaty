@@ -281,3 +281,44 @@ msgstr ""
 "wstrzykiwany przez hooki PHP. Aby przelaczych na block checkout, zastap "
 "zawartosc strony blokami WooCommerce w edytorze lub uzyj przycisku "
 "\"Przywroc\" ponizej."
+
+#: admin/admin.php
+msgid "⚠️ Conflict detected"
+msgstr "⚠️ Wykryto konflikt"
+
+#: admin/admin.php
+msgid "Cart page"
+msgstr "Strona koszyka"
+
+#: admin/admin.php
+msgid "Checkout page"
+msgstr "Strona checkout"
+
+#: admin/admin.php
+msgid "Block"
+msgstr "Blokowy"
+
+#: admin/admin.php
+msgid "Classic"
+msgstr "Klasyczny"
+
+#: admin/admin.php
+msgid "Your cart and checkout pages use different modes (one uses WooCommerce Blocks, the other uses classic shortcodes). Please select which mode you want the plugin to use, or make both pages consistent."
+msgstr "Twój koszyk i strona checkout używają różnych trybów (jeden używa bloków WooCommerce, drugi klasycznych shortcode'ów). Wybierz, który tryb ma być używany przez wtyczkę, lub ujednolicij obie strony."
+
+#: admin/admin.php
+msgid "Manual override"
+msgstr "Ręczny wybór trybu"
+
+#: admin/admin.php
+msgid "✅ Use block checkout mode (WooCommerce Blocks)"
+msgstr "✅ Używaj trybu blokowego (WooCommerce Blocks)"
+
+#: admin/admin.php
+msgid "🔷 Use classic checkout mode (shortcode)"
+msgstr "🔷 Używaj trybu klasycznego (shortcode)"
+
+#: admin/admin.php
+msgid "This setting is only active when a conflict is detected. Fix the conflict by making both pages use the same mode to remove the need for this override."
+msgstr "To ustawienie jest aktywne tylko gdy wykryto konflikt. Aby usunąć potrzebę ręcznego wyboru, ustaw obie strony (koszyk i checkout) w tym samym trybie."
+

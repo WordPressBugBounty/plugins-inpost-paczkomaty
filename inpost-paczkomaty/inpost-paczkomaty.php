@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Inpost Paczkomaty
  * Description: Plugin do obsługi paczkomatów inpost w woocommerce.
- * Version: 1.0.37
+ * Version: 1.0.38
  * Author: Damian Ziarnik
  * Author URI: https://grainsoft.pl/
  * Text Domain: inpost-paczkomaty
@@ -28,14 +28,16 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	define( 'INPOST_PACZKOMATY_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
 	/**
-	 * Auto-detect checkout mode by inspecting the WooCommerce cart and checkout
-	 * pages. If either page contains a WooCommerce block editor block
-	 * (woocommerce/checkout or woocommerce/cart) the plugin runs in block checkout mode.
-	 * Otherwise it falls back to classic checkout mode (shortcode-based).
+	 * Detect checkout mode by inspecting WooCommerce cart and checkout pages.
 	 *
-	 * @return bool True = classic checkout (shortcode), false = block checkout.
+	 * Returns:
+	 *   'block'    – both pages use WooCommerce Blocks
+	 *   'classic'  – both pages use classic shortcodes
+	 *   'conflict' – mixed setup (one block, one classic)
+	 *
+	 * @return string 'block'|'classic'|'conflict'
 	 */
-	function inpost_paczkomaty_detect_classic_checkout() {
+	function inpost_paczkomaty_detect_checkout_mode() {
 		$checkout_page_id = (int) get_option( 'woocommerce_checkout_page_id' );
 		$cart_page_id     = (int) get_option( 'woocommerce_cart_page_id' );
 
@@ -45,16 +47,33 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		$checkout_has_block = $checkout_post && has_block( 'woocommerce/checkout', $checkout_post );
 		$cart_has_block     = $cart_post     && has_block( 'woocommerce/cart',     $cart_post );
 
-		// If either page uses WooCommerce Blocks → block checkout mode.
-		if ( $checkout_has_block || $cart_has_block ) {
-			return false;
+		if ( $checkout_has_block && $cart_has_block ) {
+			return 'block';
 		}
 
-		// No WooCommerce Blocks detected → classic checkout (shortcode) mode.
-		return true;
+		if ( ! $checkout_has_block && ! $cart_has_block ) {
+			return 'classic';
+		}
+
+		// One page uses blocks, the other uses shortcode → conflict.
+		return 'conflict';
 	}
 
-	define( 'INPOST_PACZKOMATY_CLASSIC_CHECKOUT', inpost_paczkomaty_detect_classic_checkout() );
+	// Detect the mode and expose it as a constant so admin panel can read it.
+	$_ip_detected_mode = inpost_paczkomaty_detect_checkout_mode();
+	define( 'INPOST_PACZKOMATY_DETECTED_MODE', $_ip_detected_mode );
+
+	if ( 'conflict' === $_ip_detected_mode ) {
+		// Fall back to the manual override stored in plugin options.
+		// Default to 'block' if no override has been saved yet.
+		$_ip_options  = get_option( 'inpost_paczkomaty_options' );
+		$_ip_override = isset( $_ip_options['ip_checkout_mode_override'] ) ? $_ip_options['ip_checkout_mode_override'] : 'block';
+		define( 'INPOST_PACZKOMATY_CLASSIC_CHECKOUT', 'classic' === $_ip_override );
+		unset( $_ip_options, $_ip_override );
+	} else {
+		define( 'INPOST_PACZKOMATY_CLASSIC_CHECKOUT', 'classic' === $_ip_detected_mode );
+	}
+	unset( $_ip_detected_mode );
 
 	// -------------------------------------------------------------------------
 	// Shipping method class – shared between both checkout modes.

@@ -156,10 +156,9 @@ add_action( 'admin_init', 'inpost_settings_init' );
 
 
 /**
- * Read-only field showing the auto-detected checkout mode.
- * The mode is determined by inspecting whether the WooCommerce cart/checkout
- * pages use the block editor (woocommerce/checkout, woocommerce/cart blocks)
- * or the classic shortcode-based layout.
+ * Field showing the auto-detected checkout mode.
+ * Handles three states: block, classic, or conflict (mixed setup).
+ * In conflict state a manual override radio is rendered inline.
  */
 function ip_detected_checkout_mode_cb() {
 	$checkout_page_id = (int) get_option( 'woocommerce_checkout_page_id' );
@@ -171,23 +170,73 @@ function ip_detected_checkout_mode_cb() {
 	$checkout_has_block = $checkout_post && has_block( 'woocommerce/checkout', $checkout_post );
 	$cart_has_block     = $cart_post     && has_block( 'woocommerce/cart',     $cart_post );
 
-	$is_block_mode = $checkout_has_block || $cart_has_block;
-
-	if ( $is_block_mode ) {
-		$badge_color = '#00a32a';
-		$label       = __( '✅ Block checkout (WooCommerce Blocks)', 'inpost-paczkomaty' );
-		$description = __( 'The checkout and/or cart page uses WooCommerce block editor blocks. The paczkomat selector will appear automatically in the shipping section when InPost Paczkomaty is selected.', 'inpost-paczkomaty' );
+	// Determine overall mode.
+	if ( $checkout_has_block && $cart_has_block ) {
+		$mode = 'block';
+	} elseif ( ! $checkout_has_block && ! $cart_has_block ) {
+		$mode = 'classic';
 	} else {
-		$badge_color = '#2271b1';
-		$label       = __( '🔷 Classic checkout (shortcode)', 'inpost-paczkomaty' );
-		$description = __( 'The checkout and cart pages use classic shortcodes ([woocommerce_checkout] / [woocommerce_cart]). The paczkomat selector is injected via PHP hooks. To switch to block checkout, replace the page content with WooCommerce Blocks in the editor, or use the "Restore" button below to switch back to classic checkout.', 'inpost-paczkomaty' );
+		$mode = 'conflict';
 	}
-	?>
-    <span style="display:inline-block; padding: 4px 10px; border-radius: 4px; background: <?php echo esc_attr( $badge_color ); ?>; color: #fff; font-weight: 600;">
-        <?php echo esc_html( $label ); ?>
-    </span>
-    <p class="description"><?php echo esc_html( $description ); ?></p>
-	<?php
+
+	if ( 'block' === $mode ) {
+		?>
+		<span style="display:inline-block; padding: 4px 10px; border-radius: 4px; background: #00a32a; color: #fff; font-weight: 600;">
+			<?php esc_html_e( '✅ Block checkout (WooCommerce Blocks)', 'inpost-paczkomaty' ); ?>
+		</span>
+		<p class="description"><?php esc_html_e( 'The checkout and/or cart page uses WooCommerce block editor blocks. The paczkomat selector will appear automatically in the shipping section when InPost Paczkomaty is selected.', 'inpost-paczkomaty' ); ?></p>
+		<?php
+	} elseif ( 'classic' === $mode ) {
+		?>
+		<span style="display:inline-block; padding: 4px 10px; border-radius: 4px; background: #2271b1; color: #fff; font-weight: 600;">
+			<?php esc_html_e( '🔷 Classic checkout (shortcode)', 'inpost-paczkomaty' ); ?>
+		</span>
+		<p class="description"><?php esc_html_e( 'The checkout and cart pages use classic shortcodes ([woocommerce_checkout] / [woocommerce_cart]). The paczkomat selector is injected via PHP hooks. To switch to block checkout, replace the page content with WooCommerce Blocks in the editor, or use the "Restore" button below to switch back to classic checkout.', 'inpost-paczkomaty' ); ?></p>
+		<?php
+	} else {
+		// Conflict: one page is block, the other is classic.
+		$options  = get_option( 'inpost_paczkomaty_options' );
+		$override = isset( $options['ip_checkout_mode_override'] ) ? $options['ip_checkout_mode_override'] : 'block';
+
+		$cart_label     = $cart_has_block
+			? '<span style="color:#00a32a;font-weight:600;">' . esc_html__( 'Block', 'inpost-paczkomaty' ) . '</span>'
+			: '<span style="color:#2271b1;font-weight:600;">' . esc_html__( 'Classic', 'inpost-paczkomaty' ) . '</span>';
+		$checkout_label = $checkout_has_block
+			? '<span style="color:#00a32a;font-weight:600;">' . esc_html__( 'Block', 'inpost-paczkomaty' ) . '</span>'
+			: '<span style="color:#2271b1;font-weight:600;">' . esc_html__( 'Classic', 'inpost-paczkomaty' ) . '</span>';
+		?>
+		<span style="display:inline-block; padding: 4px 10px; border-radius: 4px; background: #d63638; color: #fff; font-weight: 600;">
+			<?php esc_html_e( '⚠️ Conflict detected', 'inpost-paczkomaty' ); ?>
+		</span>
+
+		<p style="margin-top: 8px;">
+			<strong><?php esc_html_e( 'Cart page', 'inpost-paczkomaty' ); ?>:</strong>
+			<?php echo wp_kses( $cart_label, array( 'span' => array( 'style' => array() ) ) ); ?>
+			&nbsp;|&nbsp;
+			<strong><?php esc_html_e( 'Checkout page', 'inpost-paczkomaty' ); ?>:</strong>
+			<?php echo wp_kses( $checkout_label, array( 'span' => array( 'style' => array() ) ) ); ?>
+		</p>
+
+		<p class="description">
+			<?php esc_html_e( 'Your cart and checkout pages use different modes (one uses WooCommerce Blocks, the other uses classic shortcodes). Please select which mode you want the plugin to use, or make both pages consistent.', 'inpost-paczkomaty' ); ?>
+		</p>
+
+		<fieldset style="margin-top: 10px; border: 1px solid #ddd; padding: 10px 14px; border-radius: 4px; background: #fff8f0;">
+			<legend style="font-weight: 600; padding: 0 4px;"><?php esc_html_e( 'Manual override', 'inpost-paczkomaty' ); ?></legend>
+			<label style="display: block; margin-bottom: 8px;">
+				<input type="radio" name="inpost_paczkomaty_options[ip_checkout_mode_override]" value="block" <?php checked( $override, 'block' ); ?>>
+				<?php esc_html_e( '✅ Use block checkout mode (WooCommerce Blocks)', 'inpost-paczkomaty' ); ?>
+			</label>
+			<label style="display: block;">
+				<input type="radio" name="inpost_paczkomaty_options[ip_checkout_mode_override]" value="classic" <?php checked( $override, 'classic' ); ?>>
+				<?php esc_html_e( '🔷 Use classic checkout mode (shortcode)', 'inpost-paczkomaty' ); ?>
+			</label>
+			<p class="description" style="margin-top: 8px;">
+				<?php esc_html_e( 'This setting is only active when a conflict is detected. Fix the conflict by making both pages use the same mode to remove the need for this override.', 'inpost-paczkomaty' ); ?>
+			</p>
+		</fieldset>
+		<?php
+	}
 }
 
 /**

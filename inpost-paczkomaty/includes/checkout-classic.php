@@ -12,7 +12,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // ---------------------------------------------------------------------------
-// Enqueue InPost GeoWidget SDK and modal script on the classic checkout cart page.
+// Enqueue InPost GeoWidget SDK and modal script on the classic cart page.
 // ---------------------------------------------------------------------------
 
 add_action( 'woocommerce_before_cart', 'inpost_paczkomaty_styles_and_scripts_before_cart' );
