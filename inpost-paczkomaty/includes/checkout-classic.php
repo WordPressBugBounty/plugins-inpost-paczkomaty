@@ -27,7 +27,10 @@ function inpost_paczkomaty_styles_and_scripts_before_cart() {
 	$modal_js_url = INPOST_PACZKOMATY_PLUGIN_URL . '/js/paczkomat-modal.js';
 
 	wp_register_script( 'paczkomat_modal', $modal_js_url, array( 'jquery' ) );
-	wp_localize_script( 'paczkomat_modal', 'ajax_options', array( 'admin_ajax_url' => $admin_ajax_url ) );
+	wp_localize_script( 'paczkomat_modal', 'ajax_options', array(
+		'admin_ajax_url' => $admin_ajax_url,
+		'nonce'          => wp_create_nonce( 'inpost_paczkomaty_nonce' ),
+	) );
 	wp_enqueue_script( 'paczkomat_modal', $modal_js_url, array( 'jquery' ) );
 
 	wp_enqueue_style( 'inpost_paczkomaty_inpost_css', 'https://geowidget.easypack24.net/css/easypack.css' );
@@ -48,7 +51,10 @@ function inpost_paczkomaty_styles_and_scripts_before_checkout() {
 	$modal_js_url = INPOST_PACZKOMATY_PLUGIN_URL . '/js/paczkomat-modal.js';
 
 	wp_register_script( 'paczkomat_modal', $modal_js_url, array( 'jquery' ) );
-	wp_localize_script( 'paczkomat_modal', 'ajax_options', array( 'admin_ajax_url' => $admin_ajax_url ) );
+	wp_localize_script( 'paczkomat_modal', 'ajax_options', array(
+		'admin_ajax_url' => $admin_ajax_url,
+		'nonce'          => wp_create_nonce( 'inpost_paczkomaty_nonce' ),
+	) );
 	wp_enqueue_script( 'paczkomat_modal', $modal_js_url, array( 'jquery' ) );
 
 	wp_enqueue_style( 'inpost_paczkomaty_inpost_css', 'https://geowidget.easypack24.net/css/easypack.css' );
@@ -103,7 +109,7 @@ function inpost_paczkomaty_action_woocommerce_checkout_before_order_review( $shi
 				),
 			);
 			echo wp_kses(
-				'<div><img width="100px" src="' . $settings['ip_select_show_logo_img'] . '" class="paczkomat-logo"></div>',
+				'<div><img width="100px" src="' . esc_url( $settings['ip_select_show_logo_img'] ) . '" class="paczkomat-logo"></div>',
 				$allowed_html_img
 			);
 		}
@@ -149,7 +155,7 @@ function inpost_paczkomaty_action_woocommerce_checkout_before_order_review( $shi
 			'br'  => array(),
 		);
 		echo wp_kses(
-			'<div id="selected-paczkomat"> Wybrany paczkomat: <br>' . $selected_name . '<br>' . $selected_address1 . '<br>' . $selected_address2 . '</div>',
+			'<div id="selected-paczkomat"> Wybrany paczkomat: <br>' . esc_html( $selected_name ) . '<br>' . esc_html( $selected_address1 ) . '<br>' . esc_html( $selected_address2 ) . '</div>',
 			$allowed_html_info
 		);
 	}

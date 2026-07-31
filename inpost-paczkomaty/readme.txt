@@ -3,9 +3,9 @@ Contributors: rimosfafora
 Donate link: https://suppi.pl/damian-ziarnik
 Tags: inpost, paczkomaty
 Requires at least: 5.3
-Tested up to: 7.0
+Tested up to: 7.0.2
 Requires PHP: 7.4
-Stable tag: 1.0.38
+Stable tag: 1.0.39
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
  
@@ -72,6 +72,17 @@ Przejdź do WooCommerce -> Inpost Paczkomaty i zaznacz checkbox "I want to use l
 Upewnij się, że checkbox "I want to use legacy (PHP) cart/checkout" w ustawieniach wtyczki (WooCommerce -> Inpost Paczkomaty) jest odznaczony. Selektor paczkomatu pojawi się automatycznie w sekcji wysyłki bloku checkout po wybraniu formy dostawy InPost Paczkomaty – nie musisz nic dodawać ręcznie w edytorze strony.
 
 == Changelog ==
+
+= 1.0.39 =
+* Bezpieczeństwo: dodano weryfikację nonce (check_ajax_referer) dla endpointów AJAX zapisujących i odczytujących wybrany paczkomat (set_paczkomat, get_paczkomat_session) w obu trybach koszyka – blokowym i klasycznym.
+* Bezpieczeństwo: endpoint przywracający koszyk/checkout do wersji klasycznej (przycisk "Przywróć") wymaga teraz uprawnienia manage_options oraz prawidłowego nonce – wcześniej mógł zostać wywołany przez dowolnego zalogowanego użytkownika, również przez CSRF.
+* Bezpieczeństwo: dane wybranego paczkomatu (nazwa, adres) są teraz każdorazowo escapowane (esc_html/esc_url) przy wyświetlaniu w koszyku/checkoucie klasycznym oraz w panelu zamówienia, co eliminuje potencjalny XSS.
+* Bezpieczeństwo: usunięto budowanie DOM przez innerHTML z danymi widgetu InPost na rzecz bezpiecznego textContent w skrypcie modala paczkomatu.
+* Bezpieczeństwo: dodano sanitize_callback dla opcji wtyczki (register_setting) – zapisywane są tylko rozpoznane pola, każde rzutowane na oczekiwany typ (yes/no, liczby, URL, enum).
+* Poprawka: zabezpieczono przed błędem krytycznym w powiadomieniu admina, gdy get_current_screen() zwraca null.
+* Poprawka: usunięto niespójny text domain (inpost_paczkomaty -> inpost-paczkomaty) w opisie ustawienia kosztu wysyłki.
+* Potwierdzono zgodność z najnowszym WordPress 7.0.2.
+* Poprawka: naprawiono błędne wywołanie _e() zamiast __() w odpowiedzi JSON endpointu przywracania koszyka/checkoutu.
 
 = 1.0.38 =
 * Poprawka detekcji konfliktu trybów – przypadek gdy koszyk jest blokowy a checkout klasyczny (lub odwrotnie) jest teraz prawidłowo wykrywany.

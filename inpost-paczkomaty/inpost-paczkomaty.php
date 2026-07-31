@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Inpost Paczkomaty
  * Description: Plugin do obsługi paczkomatów inpost w woocommerce.
- * Version: 1.0.38
+ * Version: 1.0.39
  * Author: Damian Ziarnik
  * Author URI: https://grainsoft.pl/
  * Text Domain: inpost-paczkomaty
@@ -583,6 +583,8 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	add_action( 'wp_ajax_nopriv_set_paczkomat', 'inpost_paczkomaty_set_paczkomat' );
 
 	function inpost_paczkomaty_set_paczkomat() {
+		check_ajax_referer( 'inpost_paczkomaty_nonce', 'nonce' );
+
 		$paczkomat = sanitize_text_field( $_POST['paczkomat_name'] ?? '' );
 		$adres1    = sanitize_text_field( $_POST['paczkomat_address1'] ?? '' );
 		$adres2    = sanitize_text_field( $_POST['paczkomat_address2'] ?? '' );
@@ -614,6 +616,8 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	add_action( 'wp_ajax_nopriv_get_paczkomat_session', 'inpost_paczkomaty_get_paczkomat_session' );
 
 	function inpost_paczkomaty_get_paczkomat_session() {
+		check_ajax_referer( 'inpost_paczkomaty_nonce', 'nonce' );
+
 		$name = WC()->session->get( 'paczkomat_name' );
 
 		if ( empty( $name ) ) {
@@ -646,7 +650,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			$selected_method_id = $selected_method_id->get_method_id();
 
 			if ( $selected_method_id === 'inpost_paczkomaty' ) {
-				echo esc_html( __( 'Selected Paczkomat', 'inpost-paczkomaty' ) ) . ': ' . esc_attr( $order->get_meta( 'Wybrany paczkomat' ) );
+				echo esc_html( __( 'Selected Paczkomat', 'inpost-paczkomaty' ) ) . ': ' . esc_html( $order->get_meta( 'Wybrany paczkomat' ) );
 			}
 		}
 	}

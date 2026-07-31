@@ -8,7 +8,7 @@ jQuery(document).ready(function ($) {
                 url: custom_ajax_object.ajax_url,
                 data: {
                     action: 'save_shortcode_cart_checkout_ajax',
-                    // Dodaj tutaj dodatkowe dane, jeśli są potrzebne
+                    nonce: custom_ajax_object.nonce,
                 },
                 success: function (response) {
                     console.log('AJAX request successful');

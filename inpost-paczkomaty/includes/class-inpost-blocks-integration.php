@@ -4,6 +4,10 @@
  * Registers scripts for the block-based cart and checkout.
  */
 
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
 use Automattic\WooCommerce\Blocks\Integrations\IntegrationInterface;
 
 class Inpost_Paczkomaty_Blocks_Integration implements IntegrationInterface {
@@ -13,7 +17,7 @@ class Inpost_Paczkomaty_Blocks_Integration implements IntegrationInterface {
 	 *
 	 * @var string
 	 */
-	private $version = '1.0.35';
+	private $version = '1.0.39';
 
 	/**
 	 * Returns the integration's unique name.

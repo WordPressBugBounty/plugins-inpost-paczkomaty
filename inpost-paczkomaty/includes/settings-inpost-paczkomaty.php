@@ -13,8 +13,8 @@
 		'title'      => array(
 			'title' => __('Paczkomaty', 'inpost-paczkomaty'),
 			'type'        => 'text',
-			'description' => __('Paczkomaty', 'inpost_paczkomaty'),
-			'default' => __('Paczkomaty', 'inpost_paczkomaty'),
+			'description' => __('Paczkomaty', 'inpost-paczkomaty'),
+			'default' => __('Paczkomaty', 'inpost-paczkomaty'),
 			'desc_tip'    => true,
 		),
 		'tax_status' => array(

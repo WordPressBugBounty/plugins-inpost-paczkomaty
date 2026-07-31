@@ -1,6 +1,43 @@
 
 
 jQuery(document).ready(function ($) {
+
+    // Safely render the selected paczkomat info without using innerHTML,
+    // so data coming from the InPost GeoWidget SDK can never inject markup.
+    function renderSelectedPaczkomat(point) {
+        var container = document.getElementById('selected-paczkomat');
+        if (!container) {
+            return;
+        }
+        container.textContent = '';
+        container.appendChild(document.createTextNode('Wybrany paczkomat: '));
+        container.appendChild(document.createElement('br'));
+        container.appendChild(document.createTextNode(point.name || ''));
+        container.appendChild(document.createElement('br'));
+        container.appendChild(document.createTextNode(point.address.line1 || ''));
+        container.appendChild(document.createElement('br'));
+        container.appendChild(document.createTextNode(point.address.line2 || ''));
+    }
+
+    function sendPaczkomatSelection(point) {
+        var data = {
+            action: 'set_paczkomat',
+            nonce: ajax_options.nonce,
+            paczkomat_name: point.name,
+            paczkomat_address1: point.address.line1,
+            paczkomat_address2: point.address.line2,
+            paczkomat_post_code: point.address_details.post_code,
+            paczkomat_city: point.address_details.city,
+            paczkomat_street: point.address_details.street,
+            paczkomat_building_number: point.address_details.building_number,
+            paczkomat_flat_number: point.address_details.flat_number,
+        };
+
+        $.post(ajax_options.admin_ajax_url, data, function (response) {
+
+        });
+    }
+
     window.easyPackAsyncInit = function () {
         easyPack.init({
             defaultLocale: 'pl',
@@ -20,25 +57,10 @@ jQuery(document).ready(function ($) {
 
         easyPack.modalMap(function (point, modal) {
             modal.closeModal();
-            document.getElementById('selected-paczkomat').innerHTML = 'Wybrany paczkomat: <br>' + point.name + '<br>' + point.address.line1 + '<br>' + point.address.line2;
+            renderSelectedPaczkomat(point);
             if (point) {
                 $(".select-paczkomat-button").text("Zmień paczkomat");
-                var data = {
-                    action: 'set_paczkomat',
-                    paczkomat_name: point.name,
-                    paczkomat_address1: point.address.line1,
-                    paczkomat_address2: point.address.line2,
-                    paczkomat_post_code: point.address_details.post_code,
-                    paczkomat_city: point.address_details.city,
-                    paczkomat_street: point.address_details.street,
-                    paczkomat_building_number: point.address_details.building_number,
-                    paczkomat_flat_number: point.address_details.flat_number,
-                }
-
-                $.post(ajax_options.admin_ajax_url, data, function (response) {
-
-                });
-
+                sendPaczkomatSelection(point);
             }
         }, {width: 500, height: 600});
     });
@@ -65,25 +87,10 @@ jQuery(document).ready(function ($) {
 
             easyPack.modalMap(function (point, modal) {
                 modal.closeModal();
-                document.getElementById('selected-paczkomat').innerHTML = 'Wybrany paczkomat: <br>' + point.name + '<br>' + point.address.line1 + '<br>' + point.address.line2;
+                renderSelectedPaczkomat(point);
                 if (point) {
                     $(".select-paczkomat-button").text("Zmień paczkomat");
-                    var data = {
-                        action: 'set_paczkomat',
-                        paczkomat_name: point.name,
-                        paczkomat_address1: point.address.line1,
-                        paczkomat_address2: point.address.line2,
-                        paczkomat_post_code: point.address_details.post_code,
-                        paczkomat_city: point.address_details.city,
-                        paczkomat_street: point.address_details.street,
-                        paczkomat_building_number: point.address_details.building_number,
-                        paczkomat_flat_number: point.address_details.flat_number,
-                    }
-
-                    $.post(ajax_options.admin_ajax_url, data, function (response) {
-
-                    });
-
+                    sendPaczkomatSelection(point);
                 }
             }, {width: 500, height: 600});
         });
@@ -112,28 +119,11 @@ jQuery(document).ready(function ($) {
 
             easyPack.modalMap(function (point, modal) {
                 modal.closeModal();
-                document.getElementById('selected-paczkomat').innerHTML = 'Wybrany paczkomat: <br>' + point.name + '<br>' + point.address.line1 + '<br>' + point.address.line2;
+                renderSelectedPaczkomat(point);
                 if (point) {
                     console.log(point);
                     $(".select-paczkomat-button").text("Zmień paczkomat");
-
-                    var data = {
-                        action: 'set_paczkomat',
-                        paczkomat_name: point.name,
-                        paczkomat_address1: point.address.line1,
-                        paczkomat_address2: point.address.line2,
-                        paczkomat_post_code: point.address_details.post_code,
-                        paczkomat_city: point.address_details.city,
-                        paczkomat_street: point.address_details.street,
-                        paczkomat_building_number: point.address_details.building_number,
-                        paczkomat_flat_number: point.address_details.flat_number,
-                    }
-
-
-                    $.post(ajax_options.admin_ajax_url, data, function (response) {
-
-                    });
-
+                    sendPaczkomatSelection(point);
                 }
             }, {width: 500, height: 600});
         });

@@ -1,10 +1,77 @@
 <?php
 
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
+/**
+ * Whitelist-sanitize the plugin options array before it is saved to the DB.
+ * Unknown keys are dropped; each known key is coerced to its expected type.
+ *
+ * @param mixed $input Raw value submitted via options.php.
+ *
+ * @return array Sanitized options.
+ */
+function inpost_paczkomaty_sanitize_options( $input ) {
+	$output = array();
+
+	if ( ! is_array( $input ) ) {
+		return $output;
+	}
+
+	$yes_no_fields = array(
+		'ip_selected_as_shipping',
+		'ip_select_show_logo',
+		'ip_select_weight_limit',
+		'ip_select_dimensions_limit',
+	);
+
+	foreach ( $yes_no_fields as $field ) {
+		if ( isset( $input[ $field ] ) ) {
+			$output[ $field ] = ( 'yes' === $input[ $field ] ) ? 'yes' : 'no';
+		}
+	}
+
+	if ( isset( $input['ip_select_weight_limit_result'] ) ) {
+		$output['ip_select_weight_limit_result'] = in_array( $input['ip_select_weight_limit_result'], array( 'hide', 'split' ), true )
+			? $input['ip_select_weight_limit_result']
+			: 'hide';
+	}
+
+	if ( isset( $input['ip_checkout_mode_override'] ) ) {
+		$output['ip_checkout_mode_override'] = in_array( $input['ip_checkout_mode_override'], array( 'block', 'classic' ), true )
+			? $input['ip_checkout_mode_override']
+			: 'block';
+	}
+
+	$numeric_fields = array(
+		'ip_select_weight_limit_value',
+		'ip_select_dimensions_limit_width',
+		'ip_select_dimensions_limit_height',
+		'ip_select_dimensions_limit_length',
+	);
+
+	foreach ( $numeric_fields as $field ) {
+		if ( isset( $input[ $field ] ) && '' !== $input[ $field ] ) {
+			$output[ $field ] = absint( $input[ $field ] );
+		}
+	}
+
+	if ( isset( $input['ip_select_show_logo_img'] ) ) {
+		$output['ip_select_show_logo_img'] = esc_url_raw( $input['ip_select_show_logo_img'] );
+	}
+
+	return $output;
+}
 
 function inpost_settings_init() {
 
 	// Register a new setting for "inpost_paczkomaty_settings" page.
-	register_setting( 'inpost_paczkomaty_settings', 'inpost_paczkomaty_options' );
+	register_setting(
+		'inpost_paczkomaty_settings',
+		'inpost_paczkomaty_options',
+		array( 'sanitize_callback' => 'inpost_paczkomaty_sanitize_options' )
+	);
 
 	// Register a new section in the "inpost_paczkomaty_settings" page.
 	add_settings_section(
@@ -441,9 +508,10 @@ function save_shortcode_cart_checkout_cb( $args ) {
 	echo '<input type="button" class="button" variant="primary" id="shortcode_cart_checkout" value="' . __( "Restore", "inpost-paczkomaty" ) . '"></input>';
 
 	$message = __( "Are you sure? This will overwrite your cart and checkout settings and change them to the classic cart and checkout. It is recommended to make a backup!", "inpost-paczkomaty" );
-	wp_enqueue_script( 'save-checkout-script', plugin_dir_url( __FILE__ ) . 'js/save-checkout.js', array( 'jquery' ), '1.0', true );
+	wp_enqueue_script( 'save-checkout-script', plugin_dir_url( __FILE__ ) . 'js/save-checkout.js', array( 'jquery' ), '1.0.39', true );
 	wp_localize_script( 'save-checkout-script', 'custom_ajax_object', array(
 		'ajax_url' => admin_url( 'admin-ajax.php' ),
+		'nonce'    => wp_create_nonce( 'inpost_paczkomaty_restore_checkout' ),
 		'message'  => $message
 	) );
 	?>
@@ -470,7 +538,7 @@ function ip_select_show_logo_img_cb( $args ) {  //  Callback
 	}
 
 	// Wyświetlenie pola input typu hidden, w którym będzie przechowywana wartość wybranej opcji
-	echo '<input type="hidden" id="' . $args['label_for'] . '" name="inpost_paczkomaty_options[' . esc_attr( $args['label_for'] ) . ']" value="' . esc_attr( $val ) . '">';
+	echo '<input type="hidden" id="' . esc_attr( $args['label_for'] ) . '" name="inpost_paczkomaty_options[' . esc_attr( $args['label_for'] ) . ']" value="' . esc_attr( $val ) . '">';
 
 	// Wyświetlenie przycisku do otwierania media uploadera
 	echo '<input type="button" id="upload_image_button" class="button" value="Wybierz obraz">';
@@ -574,7 +642,7 @@ function inpost_paczkomaty_options_page_html() {
 
 function review_plugin_admin_notice__success() {
 	$screen = get_current_screen();
-	if ( $screen->id !== 'woocommerce_page_inpost_paczkomaty_settings' ) {
+	if ( ! $screen || $screen->id !== 'woocommerce_page_inpost_paczkomaty_settings' ) {
 		return;
 	}
 	?>
@@ -607,6 +675,12 @@ add_action( 'admin_notices', 'review_plugin_admin_notice__success' );
 
 function save_shortcode_cart_checkout_ajax_handler() {
 
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( array( 'message' => __( 'Brak uprawnień.', 'inpost-paczkomaty' ) ), 403 );
+	}
+
+	check_ajax_referer( 'inpost_paczkomaty_restore_checkout', 'nonce' );
+
 	if ( is_admin() && defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 		$cart_page  = get_option( 'woocommerce_cart_page_id' );
 		$cart_array = array(
@@ -621,8 +695,7 @@ function save_shortcode_cart_checkout_ajax_handler() {
 			'post_content' => '[woocommerce_checkout]',
 		);
 		$update         = wp_update_post( $checkout_array );
-		wp_send_json_success( array( 'message' => _e( 'Sukcess! sprawdź teraz swój koszyk oraz checkout', 'inpost-paczkomaty' ) ) );
-		wp_die();
+		wp_send_json_success( array( 'message' => __( 'Sukcess! sprawdź teraz swój koszyk oraz checkout', 'inpost-paczkomaty' ) ) );
 	}
 	wp_die();
 }

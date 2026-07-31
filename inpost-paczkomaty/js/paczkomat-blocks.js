@@ -114,7 +114,7 @@
         useEffect( function () {
             initEasyPack();
 
-            jQuery.post( inpostBlocksData.ajaxUrl, { action: 'get_paczkomat_session' }, function ( response ) {
+            jQuery.post( inpostBlocksData.ajaxUrl, { action: 'get_paczkomat_session', nonce: inpostBlocksData.nonce }, function ( response ) {
                 if ( response && response.success && response.data && response.data.name ) {
                     setSelectedPaczkomat({
                         name: response.data.name,
@@ -166,6 +166,7 @@
                 // Persist selection to WooCommerce session via existing AJAX handler
                 jQuery.post( inpostBlocksData.ajaxUrl, {
                     action:                   'set_paczkomat',
+                    nonce:                    inpostBlocksData.nonce,
                     paczkomat_name:           point.name,
                     paczkomat_address1:       point.address.line1,
                     paczkomat_address2:       point.address.line2,
