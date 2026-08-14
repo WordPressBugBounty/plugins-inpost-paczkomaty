@@ -1,22 +1,46 @@
 === Inpost Paczkomaty ===
 Contributors: rimosfafora
 Donate link: https://suppi.pl/damian-ziarnik
-Tags: inpost, paczkomaty
+Tags: inpost, paczkomaty, woocommerce, wysyłka, dostawa
 Requires at least: 5.3
-Tested up to: 7.0.2
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.39
+Stable tag: 1.0.40
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
- 
-Umożliwia dodanie Paczkomaty Inpost jako forma dostawy produktów. Zawiera mapkę gdzie można wybrać paczkomat w którym chce się odebrać przesyłkę.
+
+Dodaj Paczkomaty InPost jako formę dostawy w WooCommerce – wygodna mapka wyboru w koszyku i kasie, limity wagi/wymiarów.
 
 == Description ==
 
-Wtyczka umożliwia dodanie Paczkomatów Inpost jako forma dostawy w Woocoommerce. Zawiera mapkę gdzie można wybrać paczkomat w którym chce się odebrać przesyłkę. Wskazany paczkomat jest dodawany do zamówienia w panelu. Wtyczka jest bardzo prosta i intuicyjna dla każdego użytkownika.
+**Inpost Paczkomaty** to lekka, w pełni spolszczona wtyczka, która dodaje Paczkomaty InPost jako formę dostawy w sklepie WooCommerce. Klient wybiera paczkomat na wygodnej mapce (oficjalny GeoWidget InPost) bezpośrednio w koszyku lub w kasie, a Ty od razu widzisz wybrany punkt odbioru w panelu zamówienia, w mailu z potwierdzeniem i na stronie z podziękowaniem za zakup.
 
+Wtyczka działa od razu po aktywacji – wystarczy dodać nową metodę wysyłki w ustawieniach WooCommerce, bez konfigurowania kluczy API czy dodatkowych usług zewnętrznych.
 
+= Najważniejsze funkcje =
 
+* Mapka wyboru Paczkomatu (oficjalny GeoWidget InPost) w koszyku i podczas składania zamówienia.
+* Automatyczna obsługa zarówno **klasycznego koszyka/checkoutu** (shortcode `[woocommerce_cart]` / `[woocommerce_checkout]`), jak i **nowego blokowego checkoutu WooCommerce Blocks** – wtyczka sama wykrywa, którego trybu używa Twój sklep.
+* Zapisywanie wybranego paczkomatu w zamówieniu, w mailu z potwierdzeniem oraz w panelu administratora przy zamówieniu.
+* Opcjonalne ustawienie wybranego paczkomatu jako adresu wysyłki zamówienia.
+* Limity wagi i wymiarów paczki – możliwość ukrycia metody wysyłki lub automatycznego podziału zamówienia na kilka paczek po przekroczeniu limitu.
+* Konfigurowalne progi cenowe (minimalna/maksymalna wartość zamówienia), np. darmowa dostawa od określonej kwoty koszyka.
+* Możliwość dodania własnego logo InPost w koszyku i kasie.
+* Gotowe pola meta zamówienia (m.in. `_paczkomat_id`, `delivery_point_name`, `delivery_point_city`) ułatwiające integrację z systemami zewnętrznymi.
+* Pełna obsługa HPOS (High-Performance Order Storage) w nowszych wersjach WooCommerce.
+* Wtyczka jest w pełni przetłumaczona na język polski i gotowa do tłumaczenia na inne języki (Text Domain: inpost-paczkomaty).
+
+= Dla kogo jest ta wtyczka =
+
+Dla każdego sklepu WooCommerce, który chce zaoferować klientom wygodny odbiór przesyłek w Paczkomatach InPost, bez konieczności wdrażania rozbudowanych integracji kurierskich.
+
+= Bezpieczeństwo i jakość kodu =
+
+Kod wtyczki jest regularnie przeglądany pod kątem bezpieczeństwa – weryfikacja nonce na endpointach AJAX, kontrola uprawnień, escapowanie danych wyjściowych oraz sanitizacja zapisywanych ustawień. Szczegóły poszczególnych poprawek znajdziesz w sekcji Changelog.
+
+= Podoba Ci się wtyczka? =
+
+Jeśli Inpost Paczkomaty pomogła Ci zaoszczędzić czas w Twoim sklepie, będę ogromnie wdzięczny za zostawienie oceny ⭐⭐⭐⭐⭐ w zakładce [Reviews](https://wordpress.org/support/plugin/inpost-paczkomaty/reviews/) – to najprostszy sposób, żeby wtyczka trafiała do kolejnych właścicieli sklepów WooCommerce. Potrzebujesz dodatkowej funkcji, integracji z innym systemem albo pomocy z wdrożeniem u siebie? Zajrzyj do sekcji **Wsparcie** poniżej – realizuję również płatne zlecenia indywidualne.
 
 == Screenshots ==
 
@@ -27,51 +51,76 @@ Wtyczka umożliwia dodanie Paczkomatów Inpost jako forma dostawy w Woocoommerce
 
 == Frequently Asked Questions ==
 
-= Jak dodać paczkomaty =
+= Jak dodać Paczkomaty jako formę dostawy? =
 
-Po aktywowaniu wtyczki należy przejść do woocommerce -> ustawienia -> wysyłka-> kraj oraz dodać nową formę dostawy typu "paczkomaty inpost".
+Po aktywowaniu wtyczki przejdź do WooCommerce -> Ustawienia -> Wysyłka -> wybierz odpowiednią strefę wysyłki i dodaj nową metodę dostawy typu "Inpost Paczkomaty".
 
-= Jak ustawić wybrany paczkomat jako adres wysyłki =
+= Nie widzę przycisku "Wybierz paczkomat" w koszyku/kasie – co mogę zrobić? =
 
-W menu głównym panelu administracyjnego należy przejść do zakładki "Inpost paczkomaty". Następnie zaznaczyć opcję na "Tak", przy polu "Zapisz wybrany paczkomat jako adres wysyłki".
+Wtyczka automatycznie wykrywa, czy Twój sklep korzysta z klasycznego koszyka/checkoutu (shortcode) czy z nowego, blokowego WooCommerce Blocks – nie trzeba nic przełączać ręcznie. Sprawdź w panelu WooCommerce -> Inpost Paczkomaty pole "Tryb checkout (wykryty automatycznie)":
 
-= Jak dodać darmową przesyłkę =
+* Jeśli widnieje status "⚠️ Wykryto konflikt" (koszyk i checkout korzystają z różnych trybów), wybierz ręcznie odpowiedni tryb w tym samym panelu lub ujednolić obie strony (najlepiej obie na blokach albo obie na shortcode).
+* Jeśli mimo poprawnie wykrytego trybu przycisk nadal się nie pojawia, upewnij się, że wybrana jest metoda dostawy "Inpost Paczkomaty", a następnie wyłącz chwilowo inne wtyczki (patrz pytanie poniżej).
 
-Należy dwa razy dodać paczkomaty jako formę wysyłki. Pierwsza forma np. koszt 20zł i "Pokaż tę metodę wysyłki, gdy... maksymalna wartość 60zł" oraz druga forma koszt 0zł i "Pokaż tę metodę wysyłki, gdy... minimalna wartość 60zł". Kwoty 20zł i 60zł to są wartości przykładowe.
+= Używam klasycznego koszyka/checkoutu opartego na shortcode – czy muszę coś ustawiać? =
 
-= Czy będzie rozwinięcie dla kurierów =
+Nie. Wtyczka wykrywa to automatycznie na podstawie zawartości stron koszyka i checkoutu. Jeśli wcześniej zamieniłeś/aś te strony na bloki i chcesz wrócić do wersji shortcode, w panelu WooCommerce -> Inpost Paczkomaty znajdziesz przycisk "Przywróć" przy opcji "Przywróć klasyczny widok koszyka i kasy" (zalecana wcześniejsza kopia zapasowa).
 
-Tak, w przyszłości planuje rozbudować wtyczkę.
+= Używam nowego, blokowego koszyka/checkoutu WooCommerce – czy muszę coś ustawiać? =
 
-= U mnie nie działa / znalazłem błąd, co zrobić? =
+Nie, selektor paczkomatu pojawi się automatycznie w sekcji wysyłki bloku koszyka/checkoutu po wybraniu formy dostawy Inpost Paczkomaty – nie trzeba nic dodawać ręcznie w edytorze strony.
 
-Na początku należy chwilowo wyłączyć wszystkie wtyczki poza Woocoommerce i Inpost Paczkomaty a następnie sprawdzić czy działa, jeżeli nadal występuje problem to proszę sprawdzić na innym szablonie.
+= Jak ustawić wybrany paczkomat jako adres wysyłki zamówienia? =
 
-= Jak ustawić maksymalną wagę produktów dla wysyłki inpost paczkomat? =
+W panelu administracyjnym przejdź do WooCommerce -> Inpost Paczkomaty i ustaw na "Tak" pole "Zapisz wybrany paczkomat jako adres wysyłki".
 
-Należy wejść do panelu administratora -> woocommerce -> inpost paczkomaty i ustawić pole "Limit wagowy" na "tak" oraz pole "Maksymalna waga". Następnie należy wybrać co ma się dziać gdy waga zostanie przekroczona. Jeżeli zostanie wybrana opcja "ukryj metodę wysyłki" to wysyłka zostanie po prostu ukryta. Natomiast gdy wybierz się "podziel na mniejsze paczki" to koszty wysyłki zostaną odpowienio pomnożone.
+= Jak ustawić darmową dostawę od określonej kwoty zamówienia? =
 
-= Jak ustawić maksymalne wymiary produktów dla wysyłki inpost paczkomat? =
+Dodaj dwie osobne metody wysyłki "Inpost Paczkomaty" w tej samej strefie. Pierwszej ustaw np. koszt 20 zł i regułę "Pokaż tę metodę wysyłki, gdy... maksymalna wartość zamówienia 60 zł", a drugiej koszt 0 zł i regułę "...minimalna wartość zamówienia 60 zł". Kwoty 20 zł i 60 zł są tylko przykładem – dobierz je do swojego sklepu.
 
-Należy wejść do panelu administratora -> woocommerce -> inpost paczkomaty i ustawić pole "Limit wymiarów" na "tak" oraz pola "Maksymalna szerokość", "maksymalna długość", "maksymalna wysokość". Gdy któryś z przedmiotów w koszyku przekroczy wymiary to forma wysyłki inpost paczkomaty zostanie ukryta.
+= Jak ustawić maksymalną wagę produktów dla wysyłki Paczkomatem? =
 
-= Jak ustawić logo w koszyku dla inpost paczkomaty =
+W panelu WooCommerce -> Inpost Paczkomaty ustaw pole "Limit wagowy" na "Tak" oraz podaj wartość w polu "Maksymalna waga (kg)". Następnie wybierz, co ma się dziać po przekroczeniu limitu: "Ukryj metodę wysyłki" po prostu ukryje wysyłkę Paczkomatem, a "Podziel na kilka paczek" automatycznie przeliczy i pomnoży koszt wysyłki proporcjonalnie do liczby paczek.
 
-Należy wejść do panelu administratora -> woocommerce -> inpost paczkomaty i ustawić pole "Pokaż logo w koszyku i kasie" na "tak" oraz wybrać odpowiednie logo z biblioteki mediów. Maksymalna szerokość loga jaka się bedzie wyswietlać to 150px.
+= Jak ustawić maksymalne wymiary paczki dla wysyłki Paczkomatem? =
 
-= Pojawia mi się forma dostawy, lecz nie pojawia się przycisk "wybierz paczkomat", co mogę zrobić? =
+W panelu WooCommerce -> Inpost Paczkomaty ustaw pole "Ograniczenie wymiarów" na "Tak" oraz uzupełnij pola "Maksymalna szerokość (cm)", "Maksymalna wysokość (cm)" i "Maksymalna długość (cm)". Gdy którykolwiek produkt w koszyku przekroczy podane wymiary, metoda wysyłki Inpost Paczkomaty zostanie automatycznie ukryta.
 
-Od wersji 1.0.35 wtyczka obsługuje zarówno klasyczny koszyk/checkout (shortcode) jak i nowy blokowy koszyk/checkout WooCommerce. Przejdź do panelu admina: WooCommerce -> Inpost Paczkomaty i upewnij się, że opcja "I want to use legacy (PHP) cart/checkout" jest ustawiona zgodnie z typem koszyka którego używasz – zaznaczona dla klasycznego shortcode, odznaczona dla blokowego.
+= Jak dodać logo InPost w koszyku i kasie? =
 
-= Używam starego (klasycznego) koszyka / checkoutu opartego na shortcode – co zrobić? =
+W panelu WooCommerce -> Inpost Paczkomaty ustaw pole "Pokaż logo w koszyku i kasie" na "Tak", a następnie wybierz logo z biblioteki mediów. Maksymalna szerokość wyświetlanego logo to 100 px.
 
-Przejdź do WooCommerce -> Inpost Paczkomaty i zaznacz checkbox "I want to use legacy (PHP) cart/checkout". Jeśli strony koszyka i checkoutu zostały zmienione na bloki, możesz je przywrócić do wersji shortcode klikając przycisk "Przywróć" przy opcji "Przywróć klasyczny widok koszyka i kasy" (uwaga: zaleca się wcześniej wykonać kopię zapasową).
+= Czy wtyczka jest zgodna z najnowszym WordPressem i WooCommerce? =
 
-= Używam nowego blokowego koszyka / checkoutu WooCommerce – co zrobić? =
+Tak – wtyczka jest na bieżąco testowana z aktualnymi wersjami WordPressa i WooCommerce (patrz pole "Tested up to" na górze tej strony) oraz regularnie aktualizowana pod kątem bezpieczeństwa i zgodności (m.in. pełna obsługa HPOS).
 
-Upewnij się, że checkbox "I want to use legacy (PHP) cart/checkout" w ustawieniach wtyczki (WooCommerce -> Inpost Paczkomaty) jest odznaczony. Selektor paczkomatu pojawi się automatycznie w sekcji wysyłki bloku checkout po wybraniu formy dostawy InPost Paczkomaty – nie musisz nic dodawać ręcznie w edytorze strony.
+= U mnie nie działa / znalazłem błąd – co zrobić? =
+
+Wyłącz chwilowo wszystkie wtyczki poza WooCommerce i Inpost Paczkomaty, a następnie sprawdź, czy problem nadal występuje. Jeśli tak, spróbuj przełączyć się na domyślny motyw WordPress (np. Twenty Twenty-Four), aby wykluczyć konflikt z szablonem. Błąd nadal występuje? Napisz w zakładce [Support](https://wordpress.org/support/plugin/inpost-paczkomaty/) – chętnie pomogę.
+
+= Czy planowane jest wsparcie dla kurierów InPost (nie tylko Paczkomatów)? =
+
+Tak, rozwój wtyczki jest kontynuowany, a rozszerzenie o kolejne formy dostawy InPost jest na liście planów. Jeśli zależy Ci na konkretnej integracji szybciej, zobacz pytanie poniżej o zlecenia indywidualne.
+
+= Potrzebuję dodatkowej funkcji, customizacji albo integracji z innym systemem – co mogę zrobić? =
+
+Realizuję płatne wdrożenia i modyfikacje szyte na miarę – dodatkowe pola, integracje z zewnętrznymi systemami (np. kurierskimi, ERP, hurtowniami) czy zmiany wyglądu selektora paczkomatu. Opisz swoją potrzebę przez formularz kontaktowy na [grainsoft.pl](https://grainsoft.pl/#kontakt).
+
+= Jak mogę wesprzeć rozwój wtyczki? =
+
+Najprościej zostawiając ocenę ⭐⭐⭐⭐⭐ w zakładce [Reviews](https://wordpress.org/support/plugin/inpost-paczkomaty/reviews/) – to bezpośrednio pomaga innym właścicielom sklepów trafić na tę wtyczkę. Możesz też postawić mi [kawę ☕](https://suppi.pl/damian-ziarnik) albo zlecić płatne wsparcie/rozwój przez [grainsoft.pl](https://grainsoft.pl/#kontakt).
 
 == Changelog ==
+
+= 1.0.40 =
+* Zgodność z WordPress 7.1 – przegląd wtyczki pod kątem zmian z tej wersji (iframowany edytor, client-side media processing, zmiany w @wordpress/components, trwały pasek narzędzi, aktualizacja jQuery UI do 1.14.2).
+* Nowe: deklaracja kompatybilności z HPOS (custom_order_tables) oraz blokowym koszykiem/checkoutem (cart_checkout_blocks) – wcześniej WooCommerce oznaczał wtyczkę jako niekompatybilną i mógł blokować włączenie HPOS, mimo że wtyczka w pełni je obsługuje.
+* Poprawka: wtyczka poprawnie wykrywa WooCommerce aktywowane sieciowo (network activated) na instalacjach multisite – wcześniej w takiej konfiguracji nie uruchamiała się w ogóle.
+* Uzupełniono nagłówki wtyczki (Requires at least, Requires PHP, Requires Plugins, License) zgodnie z wymaganiami Plugin Check i mechanizmu zależności wtyczek z WordPress 6.5+.
+* Poprawka: dodano brakującą domenę tłumaczenia (text domain) dla dwóch ciągów, które nigdy nie były tłumaczalne ("Paczkomat" w tabeli zamówienia oraz komunikat walidacji w checkoucie klasycznym).
+* Poprawka: uzupełniono plik tłumaczenia pl_PL o 4 brakujące, wyświetlane dotąd po angielsku komunikaty (m.in. opisy pól "Ograniczenie wymiarów" i "Zapisz wybrany paczkomat jako adres wysyłki") oraz usunięto 8 nieużywanych wpisów po dawnej funkcji "legacy checkbox".
+* Poprawka: naprawiono literówkę "Sukcess" -> "Sukces" oraz nieprzetłumaczone/zniekształcone frazy (brak polskich znaków) w pliku tłumaczenia.
+* Zaktualizowano szablon tłumaczeń (.pot), który był nieaktualny od 2021 r. i nie zawierał ok. 20 nowszych ciągów – ułatwi to tworzenie tłumaczeń na inne języki.
 
 = 1.0.39 =
 * Bezpieczeństwo: dodano weryfikację nonce (check_ajax_referer) dla endpointów AJAX zapisujących i odczytujących wybrany paczkomat (set_paczkomat, get_paczkomat_session) w obu trybach koszyka – blokowym i klasycznym.
@@ -81,8 +130,9 @@ Upewnij się, że checkbox "I want to use legacy (PHP) cart/checkout" w ustawien
 * Bezpieczeństwo: dodano sanitize_callback dla opcji wtyczki (register_setting) – zapisywane są tylko rozpoznane pola, każde rzutowane na oczekiwany typ (yes/no, liczby, URL, enum).
 * Poprawka: zabezpieczono przed błędem krytycznym w powiadomieniu admina, gdy get_current_screen() zwraca null.
 * Poprawka: usunięto niespójny text domain (inpost_paczkomaty -> inpost-paczkomaty) w opisie ustawienia kosztu wysyłki.
-* Potwierdzono zgodność z najnowszym WordPress 7.0.2.
+* Potwierdzono zgodność z WordPress 7.0.2.
 * Poprawka: naprawiono błędne wywołanie _e() zamiast __() w odpowiedzi JSON endpointu przywracania koszyka/checkoutu.
+* Odświeżono opis wtyczki oraz sekcję FAQ w readme – usunięto nieaktualne informacje o dawnym checkboksie trybu koszyka, dodano opis wszystkich aktualnych funkcji.
 
 = 1.0.38 =
 * Poprawka detekcji konfliktu trybów – przypadek gdy koszyk jest blokowy a checkout klasyczny (lub odwrotnie) jest teraz prawidłowo wykrywany.
@@ -254,10 +304,12 @@ Upewnij się, że checkbox "I want to use legacy (PHP) cart/checkout" w ustawien
 
 == Support ==
 
-Wtyczka jest darmowa i rozwijana w moim wolnym czasie.
-Jeśli pomogła Ci zaoszczędzić czas lub zarobić pieniądze, możesz wesprzeć jej dalszy rozwój.
+Wtyczka jest darmowa i rozwijana w moim wolnym czasie. Jeśli pomogła Ci zaoszczędzić czas lub zarobić pieniądze w Twoim sklepie, poniżej znajdziesz kilka sposobów, jak możesz się odwdzięczyć i pomóc jej dalej się rozwijać:
 
-* [Wesprzyj rozwój wtyczki ☕](https://suppi.pl/damian-ziarnik)
-* [Płatne wsparcie techniczne 🛠️](https://grainsoft.pl/#contact)
+* [Zostaw ocenę ⭐⭐⭐⭐⭐ na WordPress.org](https://wordpress.org/support/plugin/inpost-paczkomaty/reviews/) – to zajmuje minutę, a realnie pomaga innym właścicielom sklepów znaleźć tę wtyczkę.
+* [Postaw mi kawę ☕](https://suppi.pl/damian-ziarnik) – wspiera dalszy, darmowy rozwój wtyczki.
+* [Zleć płatne wsparcie techniczne lub customową funkcję 🛠️](https://grainsoft.pl/#kontakt) – pomagam z wdrożeniem, konfiguracją oraz rozwijam wtyczkę pod indywidualne potrzeby (dodatkowe integracje, zmiany w działaniu, dedykowane funkcje).
+
+Masz pytanie techniczne? Najpierw sprawdź sekcję FAQ powyżej, a jeśli nie znajdziesz odpowiedzi – zapraszam do zakładki [Support](https://wordpress.org/support/plugin/inpost-paczkomaty/).
 
 Dziękuję za korzystanie z wtyczki!

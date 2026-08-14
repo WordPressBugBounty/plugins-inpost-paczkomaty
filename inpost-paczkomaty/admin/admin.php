@@ -508,7 +508,7 @@ function save_shortcode_cart_checkout_cb( $args ) {
 	echo '<input type="button" class="button" variant="primary" id="shortcode_cart_checkout" value="' . __( "Restore", "inpost-paczkomaty" ) . '"></input>';
 
 	$message = __( "Are you sure? This will overwrite your cart and checkout settings and change them to the classic cart and checkout. It is recommended to make a backup!", "inpost-paczkomaty" );
-	wp_enqueue_script( 'save-checkout-script', plugin_dir_url( __FILE__ ) . 'js/save-checkout.js', array( 'jquery' ), '1.0.39', true );
+	wp_enqueue_script( 'save-checkout-script', plugin_dir_url( __FILE__ ) . 'js/save-checkout.js', array( 'jquery' ), '1.0.40', true );
 	wp_localize_script( 'save-checkout-script', 'custom_ajax_object', array(
 		'ajax_url' => admin_url( 'admin-ajax.php' ),
 		'nonce'    => wp_create_nonce( 'inpost_paczkomaty_restore_checkout' ),
@@ -695,7 +695,7 @@ function save_shortcode_cart_checkout_ajax_handler() {
 			'post_content' => '[woocommerce_checkout]',
 		);
 		$update         = wp_update_post( $checkout_array );
-		wp_send_json_success( array( 'message' => __( 'Sukcess! sprawdź teraz swój koszyk oraz checkout', 'inpost-paczkomaty' ) ) );
+		wp_send_json_success( array( 'message' => __( 'Sukces! Sprawdź teraz swój koszyk oraz checkout.', 'inpost-paczkomaty' ) ) );
 	}
 	wp_die();
 }

@@ -74,7 +74,7 @@ function paczkomaty_inpost_validation_checkout() {
 		$selected_name = WC()->session->get( 'paczkomat_name' );
 
 		if ( $selected[0] === 'inpost_paczkomaty' && ( ! isset( $selected_name ) || empty( $selected_name ) ) ) {
-			wc_add_notice( __( 'Nie wybrano paczkomatu. Wybierz paczkomat lub zmień formę wysyłki.' ), 'error' );
+			wc_add_notice( __( 'Nie wybrano paczkomatu. Wybierz paczkomat lub zmień formę wysyłki.', 'inpost-paczkomaty' ), 'error' );
 		}
 	}
 }

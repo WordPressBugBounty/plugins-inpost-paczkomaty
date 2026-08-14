@@ -17,7 +17,7 @@ class Inpost_Paczkomaty_Blocks_Integration implements IntegrationInterface {
 	 *
 	 * @var string
 	 */
-	private $version = '1.0.39';
+	private $version = '1.0.40';
 
 	/**
 	 * Returns the integration's unique name.

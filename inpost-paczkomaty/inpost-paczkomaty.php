@@ -2,11 +2,16 @@
 /**
  * Plugin Name: Inpost Paczkomaty
  * Description: Plugin do obsługi paczkomatów inpost w woocommerce.
- * Version: 1.0.39
+ * Version: 1.0.40
  * Author: Damian Ziarnik
  * Author URI: https://grainsoft.pl/
  * Text Domain: inpost-paczkomaty
  * Domain Path: /languages
+ * Requires at least: 5.3
+ * Requires PHP: 7.4
+ * Requires Plugins: woocommerce
+ * License: GPLv2 or later
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  **/
 
 use Automattic\WooCommerce\Utilities\NumberUtil;
@@ -15,10 +20,39 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+/**
+ * Detect whether WooCommerce is active.
+ *
+ * Checks per-site active plugins as well as network-activated plugins on
+ * multisite (they live in a separate option), and matches on the plugin file
+ * name so non-standard directory names still resolve.
+ *
+ * @return bool
+ */
+function inpost_paczkomaty_is_woocommerce_active() {
+	$active_plugins = (array) apply_filters( 'active_plugins', get_option( 'active_plugins', array() ) );
+
+	if ( is_multisite() ) {
+		$active_plugins = array_merge(
+			$active_plugins,
+			array_keys( (array) get_site_option( 'active_sitewide_plugins', array() ) )
+		);
+	}
+
+	foreach ( $active_plugins as $plugin ) {
+		if ( 'woocommerce.php' === basename( (string) $plugin ) ) {
+			return true;
+		}
+	}
+
+	// Fallback for setups loading WooCommerce by other means (e.g. mu-plugins).
+	return class_exists( 'WooCommerce' );
+}
+
 /*
  * Bootstrap only when WooCommerce is active.
  */
-if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+if ( inpost_paczkomaty_is_woocommerce_active() ) {
 
 	// -------------------------------------------------------------------------
 	// Plugin-wide constants (available in all included files).
@@ -26,6 +60,35 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 
 	define( 'INPOST_PACZKOMATY_PLUGIN_URL', plugins_url( '', __FILE__ ) );
 	define( 'INPOST_PACZKOMATY_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+
+	// -------------------------------------------------------------------------
+	// Declare WooCommerce feature compatibility.
+	// Without this WooCommerce lists the plugin as incompatible and can block
+	// enabling HPOS, even though the plugin fully supports it.
+	// -------------------------------------------------------------------------
+
+	add_action(
+		'before_woocommerce_init',
+		function () {
+			if ( ! class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+				return;
+			}
+
+			// High-Performance Order Storage – order meta is written via CRUD.
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility(
+				'custom_order_tables',
+				__FILE__,
+				true
+			);
+
+			// Block-based cart and checkout – handled by includes/checkout-blocks.php.
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility(
+				'cart_checkout_blocks',
+				__FILE__,
+				true
+			);
+		}
+	);
 
 	/**
 	 * Detect checkout mode by inspecting WooCommerce cart and checkout pages.
@@ -673,7 +736,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 
 		if ( $selected_method_id === 'inpost_paczkomaty' ) {
 			$fields['meta_key'] = array(
-				'label' => __( 'Paczkomat' ),
+				'label' => __( 'Paczkomat', 'inpost-paczkomaty' ),
 				'value' => $order->get_meta( 'Wybrany paczkomat' ),
 			);
 		}
