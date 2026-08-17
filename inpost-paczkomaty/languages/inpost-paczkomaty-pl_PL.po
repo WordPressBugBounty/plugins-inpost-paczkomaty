@@ -1,77 +1,216 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Inpost Paczkomaty 1.0.40\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-02 11:46+0000\n"
+"Project-Id-Version: Inpost Paczkomaty 1.0.41\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/inpost-"
+"paczkomaty\n"
+"POT-Creation-Date: 2026-08-17T08:09:47+00:00\n"
 "PO-Revision-Date: 2026-08-02 12:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: Polski\n"
 "Language: pl_PL\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10 >= 2 && n%10<=4 "
-"&&(n%100<10||n%100 >= 20)? 1 : 2);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10 >= 2 && n%10<=4 "
+"&&(n%100<10||n%100 >= 20)? 1 : 2);\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Loco-Version: 2.6.6; wp-6.4.1\n"
-"X-Domain: inpost-paczkomaty"
+"X-Domain: inpost-paczkomaty\n"
 
-#: includes/settings-inpost-paczkomaty.php:47
-msgid "A maximum order amount"
-msgstr "Maksymalna kwota zamówienia"
+#. Plugin Name of the plugin
+#: inpost-paczkomaty.php inpost-paczkomaty.php:184
+msgid "Inpost Paczkomaty"
+msgstr "Inpost Paczkomaty"
 
-#: includes/settings-inpost-paczkomaty.php:48
-msgid "A minimum and maximum order amount"
-msgstr "Minimalna i maksymalna kwota zamówienia"
-
-#: includes/settings-inpost-paczkomaty.php:46
-msgid "A minimum order amount"
-msgstr "Minimalna kwota zamówienia"
-
-#: admin/admin.php:350
-msgid ""
-"Are you sure? This will overwrite your cart and checkout settings and change "
-"them to the classic cart and checkout. It is recommended to make a backup!"
-msgstr ""
-"Jesteś pewny? Spowoduje to zastąpienie ustawień koszyka i checkoutu oraz "
-"zmianę ich na klasyczny koszyk i checkout. Zaleca się wykonanie kopii "
-"zapasowej!"
-
-#: admin/admin.php:679
-msgid "Brak uprawnień."
-msgstr "Brak uprawnień."
+#. Description of the plugin
+#: inpost-paczkomaty.php
+msgid "Plugin do obsługi paczkomatów inpost w woocommerce."
+msgstr "Plugin do obsługi paczkomatów inpost w woocommerce."
 
 #. Author of the plugin
+#: inpost-paczkomaty.php
 msgid "Damian Ziarnik"
 msgstr "Damian Ziarnik"
 
-#. Use $args' label_for to populate the id inside the callback.
-#: admin/admin.php:88
-msgid "Dimensions limit"
-msgstr "Ograniczenie wymiarów"
-
-#: admin/admin.php:231
-msgid "Hide shipping method"
-msgstr "Ukryj metodę wysyłki"
-
 #. Author URI of the plugin
+#: inpost-paczkomaty.php
 msgid "https://grainsoft.pl/"
 msgstr "https://grainsoft.pl/"
 
-#: admin/admin.php:306
-msgid "If you select \"Yes\", logo will shown in cart and checkout."
-msgstr "Jeśli wybierzesz „Tak”, logo będzie widoczne w koszyku i kasie."
+#: admin/admin.php:79
+msgid "Settings"
+msgstr "Ustawienia"
 
-#: admin/admin.php:176
+#: admin/admin.php:86
+msgid "Tryb checkout (wykryty automatycznie)"
+msgstr "Tryb checkout (wykryty automatycznie)"
+
+#: admin/admin.php:96
+msgid "Save selected paczkomat as shipping address"
+msgstr "Zapisz wybrany paczkomat jako adres wysyłki"
+
+#: admin/admin.php:107
+msgid "Show logo in cart and checkout"
+msgstr "Pokaż logo w koszyku i kasie"
+
+#: admin/admin.php:117
+msgid "Logo"
+msgstr "Logo"
+
+#: admin/admin.php:129
+msgid "Weight limit"
+msgstr "Limit wagowy"
+
+#: admin/admin.php:141
+msgid "Max weight (kg)"
+msgstr "Maksymalna waga (kg)"
+
+#: admin/admin.php:152
+msgid "Weight limit result"
+msgstr "Rezultat przekroczenia wagi"
+
+#: admin/admin.php:164
+msgid "Dimensions limit"
+msgstr "Ograniczenie wymiarów"
+
+#: admin/admin.php:175
+msgid "Max width (cm)"
+msgstr "Maksymalna szerokość (cm)"
+
+#: admin/admin.php:186
+msgid "Max height (cm)"
+msgstr "Maksymalna wysokość (cm)"
+
+#: admin/admin.php:197
+msgid "Max length (cm)"
+msgstr "Maksymalna długość (cm)"
+
+#: admin/admin.php:208
+msgid "Restore the classic view of the cart and checkout"
+msgstr "Przywróć klasyczny widok koszyka i kasy"
+
+#: admin/admin.php:252
+msgid "✅ Checkout blokowy (WooCommerce Blocks)"
+msgstr "✅ Checkout blokowy (WooCommerce Blocks)"
+
+#: admin/admin.php:254
+msgid ""
+"Strona checkoutu i/lub koszyka używa bloków WooCommerce. Selektor paczkomatu "
+"pojawi się automatycznie w sekcji wysyłki po wybraniu metody InPost "
+"Paczkomaty."
+msgstr ""
+"Strona checkoutu i/lub koszyka używa bloków WooCommerce. Selektor paczkomatu "
+"pojawi się automatycznie w sekcji wysyłki po wybraniu metody InPost "
+"Paczkomaty."
+
+#: admin/admin.php:259
+msgid "🔷 Checkout klasyczny (shortcode)"
+msgstr "🔷 Checkout klasyczny (shortcode)"
+
+#: admin/admin.php:261
+msgid ""
+"Strony checkoutu i koszyka używają klasycznych shortcode'ów "
+"([woocommerce_checkout] / [woocommerce_cart]). Selektor paczkomatu jest "
+"wstrzykiwany przez hooki PHP. Aby przełączyć na checkout blokowy, zastąp "
+"zawartość strony blokami WooCommerce w edytorze lub użyj przycisku "
+"\"Przywróć\" poniżej."
+msgstr ""
+"Strony checkoutu i koszyka używają klasycznych shortcode'ów "
+"([woocommerce_checkout] / [woocommerce_cart]). Selektor paczkomatu jest "
+"wstrzykiwany przez hooki PHP. Aby przełączyć na checkout blokowy, zastąp "
+"zawartość strony blokami WooCommerce w edytorze lub użyj przycisku "
+"\"Przywróć\" poniżej."
+
+#: admin/admin.php:269 admin/admin.php:272
+msgid "Blokowy"
+msgstr "Blokowy"
+
+#: admin/admin.php:270 admin/admin.php:273
+msgid "Klasyczny"
+msgstr "Klasyczny"
+
+#: admin/admin.php:276
+msgid "⚠️ Wykryto konflikt"
+msgstr "⚠️ Wykryto konflikt"
+
+#: admin/admin.php:280
+msgid "Strona koszyka"
+msgstr "Strona koszyka"
+
+#: admin/admin.php:283
+msgid "Strona checkout"
+msgstr "Strona checkout"
+
+#: admin/admin.php:288
+msgid ""
+"Twój koszyk i strona checkout używają różnych trybów (jeden używa bloków "
+"WooCommerce, drugi klasycznych shortcode'ów). Wybierz, który tryb ma być "
+"używany przez wtyczkę, lub ujednolić obie strony."
+msgstr ""
+"Twój koszyk i strona checkout używają różnych trybów (jeden używa bloków "
+"WooCommerce, drugi klasycznych shortcode'ów). Wybierz, który tryb ma być "
+"używany przez wtyczkę, lub ujednolić obie strony."
+
+#: admin/admin.php:292
+msgid "Ręczny wybór trybu"
+msgstr "Ręczny wybór trybu"
+
+#: admin/admin.php:295
+msgid "✅ Używaj trybu blokowego (WooCommerce Blocks)"
+msgstr "✅ Używaj trybu blokowego (WooCommerce Blocks)"
+
+#: admin/admin.php:299
+msgid "🔷 Używaj trybu klasycznego (shortcode)"
+msgstr "🔷 Używaj trybu klasycznego (shortcode)"
+
+#: admin/admin.php:302
+msgid ""
+"To ustawienie jest aktywne tylko gdy wykryto konflikt. Aby usunąć potrzebę "
+"ręcznego wyboru, ustaw obie strony (koszyk i checkout) w tym samym trybie."
+msgstr ""
+"To ustawienie jest aktywne tylko gdy wykryto konflikt. Aby usunąć potrzebę "
+"ręcznego wyboru, ustaw obie strony (koszyk i checkout) w tym samym trybie."
+
+#: admin/admin.php:316
+msgid "Inpost Paczkomaty settings"
+msgstr "Inpost Paczkomaty ustawienia"
+
+#: admin/admin.php:328 admin/admin.php:413 admin/admin.php:458
+#: admin/admin.php:491
+msgid "No"
+msgstr "Nie"
+
+#: admin/admin.php:331 admin/admin.php:416 admin/admin.php:461
+#: admin/admin.php:494
+msgid "Yes"
+msgstr "Tak"
+
+#: admin/admin.php:336
 msgid ""
 "If you select \"Yes\", shipping method will be influenced by dimensions."
 msgstr "Jeśli wybierzesz „Tak”, na metodę wysyłki będą miały wpływ wymiary."
 
-#: admin/admin.php:261
+#: admin/admin.php:391
+msgid "Hide shipping method"
+msgstr "Ukryj metodę wysyłki"
+
+#: admin/admin.php:394
+msgid "Split into few packages"
+msgstr "Podziel na kilka paczek"
+
+#: admin/admin.php:399
+msgid "What to do if all items across weight limit"
+msgstr "Co zrobić, jeśli wszystkie przedmioty przekraczają limit wagi"
+
+#: admin/admin.php:421
 msgid "If you select \"Yes\", shipping method will be influenced by weight."
 msgstr "Jeśli wybierzesz „Tak”, na metodę wysyłki będzie miała wpływ waga."
 
-#: admin/admin.php:339
+#: admin/admin.php:466
+msgid "If you select \"Yes\", logo will shown in cart and checkout."
+msgstr "Jeśli wybierzesz „Tak”, logo będzie widoczne w koszyku i kasie."
+
+#: admin/admin.php:499
 msgid ""
 "If you select \"Yes\", when client make new order and choose Inpost "
 "Paczkomaty as shipping method, in his shipping address will be selected "
@@ -81,222 +220,101 @@ msgstr ""
 "metodę wysyłki wybierzesz Inpost Paczkomaty, w jego adresie wysyłki zostanie "
 "wybrany paczkomat."
 
-#. Name of the plugin
-#: inpost-paczkomaty.php:85
-msgid "Inpost Paczkomaty"
-msgstr "Inpost Paczkomaty"
-
-#: admin/admin.php:156
-msgid "Inpost Paczkomaty settings"
-msgstr "Inpost Paczkomaty ustawienia"
-
-#. Option ID
-#: admin/admin.php:41
-msgid "Logo"
-msgstr "Logo"
-
-#. Use $args' label_for to populate the id inside the callback.
-#: admin/admin.php:110
-msgid "Max height (cm)"
-msgstr "Maksymalna wysokość (cm)"
-
-#. Use $args' label_for to populate the id inside the callback.
-#: admin/admin.php:121
-msgid "Max length (cm)"
-msgstr "Maksymalna długość (cm)"
-
-#. Use $args' label_for to populate the id inside the callback.
-#: admin/admin.php:65
-msgid "Max weight (kg)"
-msgstr "Maksymalna waga (kg)"
-
-#. Use $args' label_for to populate the id inside the callback.
-#: admin/admin.php:99
-msgid "Max width (cm)"
-msgstr "Maksymalna szerokość (cm)"
-
-#: includes/settings-inpost-paczkomaty.php:61
-msgid "Maximum order amount"
-msgstr "Maksymalna kwota zamówienia"
-
-#: includes/settings-inpost-paczkomaty.php:52
-msgid "Minimum order amount"
-msgstr "Minimalna kwota zamówienia"
-
-#: admin/admin.php:168 admin/admin.php:253 admin/admin.php:298
-#: admin/admin.php:331
-msgid "No"
-msgstr "Nie"
-
-#: includes/checkout-blocks.php:116
-#: includes/checkout-classic.php:77
-msgid "Nie wybrano paczkomatu. Wybierz paczkomat lub zmień formę wysyłki."
-msgstr "Nie wybrano paczkomatu. Wybierz paczkomat lub zmień formę wysyłki."
-
-#: inpost-paczkomaty.php:676
-msgid "Paczkomat"
-msgstr "Paczkomat"
-
-#: includes/settings-inpost-paczkomaty.php:14
-msgid "Paczkomaty"
-msgstr "Paczkomaty"
-
-#: inpost-paczkomaty.php:86
-msgid "Paczkomaty inpost shipping method"
-msgstr "Sposób wysyłki Inpost Paczkomaty"
-
-#. Description of the plugin
-msgid "Plugin do obsługi paczkomatów inpost w woocommerce."
-msgstr "Plugin do obsługi paczkomatów inpost w woocommerce."
-
-#: admin/admin.php:348
+#: admin/admin.php:508
 msgid "Restore"
 msgstr "Przywróć"
 
-#. Option ID
-#: admin/admin.php:132
-msgid "Restore the classic view of the cart and checkout"
-msgstr "Przywróć klasyczny widok koszyka i kasy"
+#: admin/admin.php:510
+msgid ""
+"Are you sure? This will overwrite your cart and checkout settings and change "
+"them to the classic cart and checkout. It is recommended to make a backup!"
+msgstr ""
+"Jesteś pewny? Spowoduje to zastąpienie ustawień koszyka i checkoutu oraz "
+"zmianę ich na klasyczny koszyk i checkout. Zaleca się wykonanie kopii "
+"zapasowej!"
 
-#. Use $args' label_for to populate the id inside the callback.
-#: admin/admin.php:20
-msgid "Save selected paczkomat as shipping address"
-msgstr "Zapisz wybrany paczkomat jako adres wysyłki"
-
-#: inpost-paczkomaty.php:834
-msgid "Selected Paczkomat"
-msgstr "Wybrany Paczkomat"
-
-#: admin/admin.php:12
-msgid "Settings"
-msgstr "Ustawienia"
-
-#: admin/admin.php:459
+#: admin/admin.php:620
 msgid "Settings Saved"
 msgstr "Ustawienia zapisane"
 
-#. Use $args' label_for to populate the id inside the callback.
-#: admin/admin.php:31
-msgid "Show logo in cart and checkout"
-msgstr "Pokaż logo w koszyku i kasie"
+#: admin/admin.php:656
+msgid "Ustawienia"
+msgstr "Ustawienia"
+
+#: admin/admin.php:662 admin/admin.php:725
+msgid "Wesprzyj rozwój wtyczki"
+msgstr "Wesprzyj rozwój wtyczki"
+
+#: admin/admin.php:690 admin/admin.php:722
+msgid "Oceń wtyczkę"
+msgstr "Oceń wtyczkę"
+
+#: admin/admin.php:696 admin/admin.php:728
+msgid "Płatne wsparcie"
+msgstr "Płatne wsparcie"
+
+#: admin/admin.php:713
+msgid "Dziękuję za korzystanie z mojej wtyczki"
+msgstr "Dziękuję za korzystanie z mojej wtyczki"
+
+#: admin/admin.php:715
+msgid "Wtyczka jest darmowa i rozwijana w moim wolnym czasie."
+msgstr "Wtyczka jest darmowa i rozwijana w moim wolnym czasie."
+
+#: admin/admin.php:716
+msgid "Potrzebujesz pomocy z konfiguracją? Oferuję płatne wsparcie."
+msgstr "Potrzebujesz pomocy z konfiguracją? Oferuję płatne wsparcie."
+
+#: admin/admin.php:775
+msgid "Brak uprawnień."
+msgstr "Brak uprawnień."
+
+#: admin/admin.php:794
+msgid "Sukces! Sprawdź teraz swój koszyk oraz checkout."
+msgstr "Sukces! Sprawdź teraz swój koszyk oraz checkout."
+
+#: includes/checkout-blocks.php:116 includes/checkout-classic.php:77
+msgid "Nie wybrano paczkomatu. Wybierz paczkomat lub zmień formę wysyłki."
+msgstr "Nie wybrano paczkomatu. Wybierz paczkomat lub zmień formę wysyłki."
+
+#: includes/settings-inpost-paczkomaty.php:14
+#: includes/settings-inpost-paczkomaty.php:16
+#: includes/settings-inpost-paczkomaty.php:17
+msgid "Paczkomaty"
+msgstr "Paczkomaty"
 
 #: includes/settings-inpost-paczkomaty.php:40
 msgid "Show this shipping method when..."
 msgstr "Pokaż tę metodę wysyłki, gdy..."
 
-#: admin/admin.php:234
-msgid "Split into few packages"
-msgstr "Podziel na kilka paczek"
+#: includes/settings-inpost-paczkomaty.php:46
+msgid "A minimum order amount"
+msgstr "Minimalna kwota zamówienia"
 
-#: admin/admin.php:698
-msgid "Sukces! Sprawdź teraz swój koszyk oraz checkout."
-msgstr "Sukces! Sprawdź teraz swój koszyk oraz checkout."
+#: includes/settings-inpost-paczkomaty.php:47
+msgid "A maximum order amount"
+msgstr "Maksymalna kwota zamówienia"
 
-#. Use $args' label_for to populate the id inside the callback.
-#: admin/admin.php:53
-msgid "Weight limit"
-msgstr "Limit wagowy"
+#: includes/settings-inpost-paczkomaty.php:48
+msgid "A minimum and maximum order amount"
+msgstr "Minimalna i maksymalna kwota zamówienia"
 
-#. Use $args' label_for to populate the id inside the callback.
-#: admin/admin.php:76
-msgid "Weight limit result"
-msgstr "Rezultat przekroczenia wagi"
+#: includes/settings-inpost-paczkomaty.php:52
+msgid "Minimum order amount"
+msgstr "Minimalna kwota zamówienia"
 
-#: admin/admin.php:239
-msgid "What to do if all items across weight limit"
-msgstr "Co zrobić, jeśli wszystkie przedmioty przekraczają limit wagi"
+#: includes/settings-inpost-paczkomaty.php:61
+msgid "Maximum order amount"
+msgstr "Maksymalna kwota zamówienia"
 
-#: admin/admin.php:171 admin/admin.php:256 admin/admin.php:301
-#: admin/admin.php:334
-msgid "Yes"
-msgstr "Tak"
+#: inpost-paczkomaty.php:185
+msgid "Paczkomaty inpost shipping method"
+msgstr "Sposób wysyłki Inpost Paczkomaty"
 
-#: admin/admin.php
-msgid "Thank you for using my plugin"
-msgstr "Dziękuję za korzystanie z mojej wtyczki"
+#: inpost-paczkomaty.php:717
+msgid "Selected Paczkomat"
+msgstr "Wybrany Paczkomat"
 
-#: admin/admin.php
-msgid "It is free and developed in my spare time."
-msgstr "Wtyczka jest darmowa i rozwijana w wolnym czasie."
-
-#: admin/admin.php
-msgid "Leave a review"
-msgstr "Oceń wtyczkę"
-
-#: admin/admin.php
-msgid "Support plugin development"
-msgstr "Wesprzyj rozwój wtyczki"
-
-#: admin/admin.php
-msgid "Need help with setup? Paid support available."
-msgstr "Potrzebujesz pomocy z konfiguracją? Oferuję płatne wsparcie."
-
-#: admin/admin.php
-msgid "Checkout mode (auto-detected)"
-msgstr "Tryb checkout (wykryty automatycznie)"
-
-#: admin/admin.php
-msgid "✅ Block checkout (WooCommerce Blocks)"
-msgstr "✅ Checkout blokowy (WooCommerce Blocks)"
-
-#: admin/admin.php
-msgid "The checkout and/or cart page uses WooCommerce block editor blocks. The paczkomat selector will appear automatically in the shipping section when InPost Paczkomaty is selected."
-msgstr "Strona checkoutu i/lub koszyka używa bloków WooCommerce. Selektor paczkomatu pojawi się automatycznie w sekcji wysyłki po wybraniu metody InPost Paczkomaty."
-
-#: admin/admin.php
-msgid "🔷 Classic checkout (shortcode)"
-msgstr "🔷 Checkout klasyczny (shortcode)"
-
-#: admin/admin.php
-msgid ""
-"The checkout and cart pages use classic shortcodes ([woocommerce_checkout] / "
-"[woocommerce_cart]). The paczkomat selector is injected via PHP hooks. To "
-"switch to block checkout, replace the page content with WooCommerce Blocks "
-"in the editor, or use the \"Restore\" button below to switch back to classic "
-"checkout."
-msgstr ""
-"Strony checkoutu i koszyka używają klasycznych shortcode'ów "
-"([woocommerce_checkout] / [woocommerce_cart]). Selektor paczkomatu jest "
-"wstrzykiwany przez hooki PHP. Aby przełączyć na checkout blokowy, zastąp "
-"zawartość strony blokami WooCommerce w edytorze lub użyj przycisku "
-"\"Przywróć\" poniżej."
-
-#: admin/admin.php
-msgid "⚠️ Conflict detected"
-msgstr "⚠️ Wykryto konflikt"
-
-#: admin/admin.php
-msgid "Cart page"
-msgstr "Strona koszyka"
-
-#: admin/admin.php
-msgid "Checkout page"
-msgstr "Strona checkout"
-
-#: admin/admin.php
-msgid "Block"
-msgstr "Blokowy"
-
-#: admin/admin.php
-msgid "Classic"
-msgstr "Klasyczny"
-
-#: admin/admin.php
-msgid "Your cart and checkout pages use different modes (one uses WooCommerce Blocks, the other uses classic shortcodes). Please select which mode you want the plugin to use, or make both pages consistent."
-msgstr "Twój koszyk i strona checkout używają różnych trybów (jeden używa bloków WooCommerce, drugi klasycznych shortcode'ów). Wybierz, który tryb ma być używany przez wtyczkę, lub ujednolicij obie strony."
-
-#: admin/admin.php
-msgid "Manual override"
-msgstr "Ręczny wybór trybu"
-
-#: admin/admin.php
-msgid "✅ Use block checkout mode (WooCommerce Blocks)"
-msgstr "✅ Używaj trybu blokowego (WooCommerce Blocks)"
-
-#: admin/admin.php
-msgid "🔷 Use classic checkout mode (shortcode)"
-msgstr "🔷 Używaj trybu klasycznego (shortcode)"
-
-#: admin/admin.php
-msgid "This setting is only active when a conflict is detected. Fix the conflict by making both pages use the same mode to remove the need for this override."
-msgstr "To ustawienie jest aktywne tylko gdy wykryto konflikt. Aby usunąć potrzebę ręcznego wyboru, ustaw obie strony (koszyk i checkout) w tym samym trybie."
+#: inpost-paczkomaty.php:740
+msgid "Paczkomat"
+msgstr "Paczkomat"

@@ -83,7 +83,7 @@ function inpost_settings_init() {
 	// Detected checkout mode info (read-only, auto-detected from page content).
 	add_settings_field(
 		'ip_detected_checkout_mode',
-		__( 'Checkout mode (auto-detected)', 'inpost-paczkomaty' ),
+		__( 'Tryb checkout (wykryty automatycznie)', 'inpost-paczkomaty' ),
 		'ip_detected_checkout_mode_cb',
 		'inpost_paczkomaty_settings',
 		'inpost_section_developers'
@@ -249,16 +249,16 @@ function ip_detected_checkout_mode_cb() {
 	if ( 'block' === $mode ) {
 		?>
 		<span style="display:inline-block; padding: 4px 10px; border-radius: 4px; background: #00a32a; color: #fff; font-weight: 600;">
-			<?php esc_html_e( '✅ Block checkout (WooCommerce Blocks)', 'inpost-paczkomaty' ); ?>
+			<?php esc_html_e( '✅ Checkout blokowy (WooCommerce Blocks)', 'inpost-paczkomaty' ); ?>
 		</span>
-		<p class="description"><?php esc_html_e( 'The checkout and/or cart page uses WooCommerce block editor blocks. The paczkomat selector will appear automatically in the shipping section when InPost Paczkomaty is selected.', 'inpost-paczkomaty' ); ?></p>
+		<p class="description"><?php esc_html_e( 'Strona checkoutu i/lub koszyka używa bloków WooCommerce. Selektor paczkomatu pojawi się automatycznie w sekcji wysyłki po wybraniu metody InPost Paczkomaty.', 'inpost-paczkomaty' ); ?></p>
 		<?php
 	} elseif ( 'classic' === $mode ) {
 		?>
 		<span style="display:inline-block; padding: 4px 10px; border-radius: 4px; background: #2271b1; color: #fff; font-weight: 600;">
-			<?php esc_html_e( '🔷 Classic checkout (shortcode)', 'inpost-paczkomaty' ); ?>
+			<?php esc_html_e( '🔷 Checkout klasyczny (shortcode)', 'inpost-paczkomaty' ); ?>
 		</span>
-		<p class="description"><?php esc_html_e( 'The checkout and cart pages use classic shortcodes ([woocommerce_checkout] / [woocommerce_cart]). The paczkomat selector is injected via PHP hooks. To switch to block checkout, replace the page content with WooCommerce Blocks in the editor, or use the "Restore" button below to switch back to classic checkout.', 'inpost-paczkomaty' ); ?></p>
+		<p class="description"><?php esc_html_e( 'Strony checkoutu i koszyka używają klasycznych shortcode\'ów ([woocommerce_checkout] / [woocommerce_cart]). Selektor paczkomatu jest wstrzykiwany przez hooki PHP. Aby przełączyć na checkout blokowy, zastąp zawartość strony blokami WooCommerce w edytorze lub użyj przycisku "Przywróć" poniżej.', 'inpost-paczkomaty' ); ?></p>
 		<?php
 	} else {
 		// Conflict: one page is block, the other is classic.
@@ -266,40 +266,40 @@ function ip_detected_checkout_mode_cb() {
 		$override = isset( $options['ip_checkout_mode_override'] ) ? $options['ip_checkout_mode_override'] : 'block';
 
 		$cart_label     = $cart_has_block
-			? '<span style="color:#00a32a;font-weight:600;">' . esc_html__( 'Block', 'inpost-paczkomaty' ) . '</span>'
-			: '<span style="color:#2271b1;font-weight:600;">' . esc_html__( 'Classic', 'inpost-paczkomaty' ) . '</span>';
+			? '<span style="color:#00a32a;font-weight:600;">' . esc_html__( 'Blokowy', 'inpost-paczkomaty' ) . '</span>'
+			: '<span style="color:#2271b1;font-weight:600;">' . esc_html__( 'Klasyczny', 'inpost-paczkomaty' ) . '</span>';
 		$checkout_label = $checkout_has_block
-			? '<span style="color:#00a32a;font-weight:600;">' . esc_html__( 'Block', 'inpost-paczkomaty' ) . '</span>'
-			: '<span style="color:#2271b1;font-weight:600;">' . esc_html__( 'Classic', 'inpost-paczkomaty' ) . '</span>';
+			? '<span style="color:#00a32a;font-weight:600;">' . esc_html__( 'Blokowy', 'inpost-paczkomaty' ) . '</span>'
+			: '<span style="color:#2271b1;font-weight:600;">' . esc_html__( 'Klasyczny', 'inpost-paczkomaty' ) . '</span>';
 		?>
 		<span style="display:inline-block; padding: 4px 10px; border-radius: 4px; background: #d63638; color: #fff; font-weight: 600;">
-			<?php esc_html_e( '⚠️ Conflict detected', 'inpost-paczkomaty' ); ?>
+			<?php esc_html_e( '⚠️ Wykryto konflikt', 'inpost-paczkomaty' ); ?>
 		</span>
 
 		<p style="margin-top: 8px;">
-			<strong><?php esc_html_e( 'Cart page', 'inpost-paczkomaty' ); ?>:</strong>
+			<strong><?php esc_html_e( 'Strona koszyka', 'inpost-paczkomaty' ); ?>:</strong>
 			<?php echo wp_kses( $cart_label, array( 'span' => array( 'style' => array() ) ) ); ?>
 			&nbsp;|&nbsp;
-			<strong><?php esc_html_e( 'Checkout page', 'inpost-paczkomaty' ); ?>:</strong>
+			<strong><?php esc_html_e( 'Strona checkout', 'inpost-paczkomaty' ); ?>:</strong>
 			<?php echo wp_kses( $checkout_label, array( 'span' => array( 'style' => array() ) ) ); ?>
 		</p>
 
 		<p class="description">
-			<?php esc_html_e( 'Your cart and checkout pages use different modes (one uses WooCommerce Blocks, the other uses classic shortcodes). Please select which mode you want the plugin to use, or make both pages consistent.', 'inpost-paczkomaty' ); ?>
+			<?php esc_html_e( 'Twój koszyk i strona checkout używają różnych trybów (jeden używa bloków WooCommerce, drugi klasycznych shortcode\'ów). Wybierz, który tryb ma być używany przez wtyczkę, lub ujednolić obie strony.', 'inpost-paczkomaty' ); ?>
 		</p>
 
 		<fieldset style="margin-top: 10px; border: 1px solid #ddd; padding: 10px 14px; border-radius: 4px; background: #fff8f0;">
-			<legend style="font-weight: 600; padding: 0 4px;"><?php esc_html_e( 'Manual override', 'inpost-paczkomaty' ); ?></legend>
+			<legend style="font-weight: 600; padding: 0 4px;"><?php esc_html_e( 'Ręczny wybór trybu', 'inpost-paczkomaty' ); ?></legend>
 			<label style="display: block; margin-bottom: 8px;">
 				<input type="radio" name="inpost_paczkomaty_options[ip_checkout_mode_override]" value="block" <?php checked( $override, 'block' ); ?>>
-				<?php esc_html_e( '✅ Use block checkout mode (WooCommerce Blocks)', 'inpost-paczkomaty' ); ?>
+				<?php esc_html_e( '✅ Używaj trybu blokowego (WooCommerce Blocks)', 'inpost-paczkomaty' ); ?>
 			</label>
 			<label style="display: block;">
 				<input type="radio" name="inpost_paczkomaty_options[ip_checkout_mode_override]" value="classic" <?php checked( $override, 'classic' ); ?>>
-				<?php esc_html_e( '🔷 Use classic checkout mode (shortcode)', 'inpost-paczkomaty' ); ?>
+				<?php esc_html_e( '🔷 Używaj trybu klasycznego (shortcode)', 'inpost-paczkomaty' ); ?>
 			</label>
 			<p class="description" style="margin-top: 8px;">
-				<?php esc_html_e( 'This setting is only active when a conflict is detected. Fix the conflict by making both pages use the same mode to remove the need for this override.', 'inpost-paczkomaty' ); ?>
+				<?php esc_html_e( 'To ustawienie jest aktywne tylko gdy wykryto konflikt. Aby usunąć potrzebę ręcznego wyboru, ustaw obie strony (koszyk i checkout) w tym samym trybie.', 'inpost-paczkomaty' ); ?>
 			</p>
 		</fieldset>
 		<?php
@@ -508,7 +508,7 @@ function save_shortcode_cart_checkout_cb( $args ) {
 	echo '<input type="button" class="button" variant="primary" id="shortcode_cart_checkout" value="' . __( "Restore", "inpost-paczkomaty" ) . '"></input>';
 
 	$message = __( "Are you sure? This will overwrite your cart and checkout settings and change them to the classic cart and checkout. It is recommended to make a backup!", "inpost-paczkomaty" );
-	wp_enqueue_script( 'save-checkout-script', plugin_dir_url( __FILE__ ) . 'js/save-checkout.js', array( 'jquery' ), '1.0.40', true );
+	wp_enqueue_script( 'save-checkout-script', plugin_dir_url( __FILE__ ) . 'js/save-checkout.js', array( 'jquery' ), '1.0.41', true );
 	wp_localize_script( 'save-checkout-script', 'custom_ajax_object', array(
 		'ajax_url' => admin_url( 'admin-ajax.php' ),
 		'nonce'    => wp_create_nonce( 'inpost_paczkomaty_restore_checkout' ),
@@ -625,6 +625,7 @@ function inpost_paczkomaty_options_page_html() {
 	?>
     <div class="wrap">
         <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+		<?php inpost_paczkomaty_render_support_card(); ?>
         <form action="options.php" method="post">
 			<?php
 			// output security fields for the registered setting "inpost_paczkomaty_settings"
@@ -640,37 +641,132 @@ function inpost_paczkomaty_options_page_html() {
 	<?php
 }
 
-function review_plugin_admin_notice__success() {
-	$screen = get_current_screen();
-	if ( ! $screen || $screen->id !== 'woocommerce_page_inpost_paczkomaty_settings' ) {
-		return;
-	}
-	?>
-    <div class="notice notice-info is-dismissible">
-        <p>
-            <?php esc_html_e( 'Thank you for using my plugin', 'inpost-paczkomaty' ); ?> ❤️
-            <?php esc_html_e( 'It is free and developed in my spare time.', 'inpost-paczkomaty' ); ?>
-        </p>
-        <p>
-            ⭐ <a href="https://wordpress.org/support/plugin/inpost-paczkomaty/reviews/" target="_blank" rel="noopener noreferrer">
-                <?php esc_html_e( 'Leave a review', 'inpost-paczkomaty' ); ?>
-            </a>
-            <br>
+/**
+ * Add "Settings" and "Support" links to the plugin row on the Plugins screen.
+ * The Settings link is the main entry point users look for after activation.
+ *
+ * @param array $links Existing action links.
+ *
+ * @return array
+ */
+function inpost_paczkomaty_plugin_action_links( $links ) {
+	$settings_link = sprintf(
+		'<a href="%s">%s</a>',
+		esc_url( admin_url( 'admin.php?page=inpost_paczkomaty_settings' ) ),
+		esc_html__( 'Ustawienia', 'inpost-paczkomaty' )
+	);
 
-            ☕ <a href="https://suppi.pl/damian-ziarnik" target="_blank" rel="noopener noreferrer">
-                <?php esc_html_e( 'Support plugin development', 'inpost-paczkomaty' ); ?>
-            </a>
-            <br>
+	$donate_link = sprintf(
+		'<a href="%s" target="_blank" rel="noopener noreferrer" style="color:#b8860b;font-weight:600;">☕ %s</a>',
+		esc_url( 'https://suppi.pl/damian-ziarnik' ),
+		esc_html__( 'Wesprzyj rozwój wtyczki', 'inpost-paczkomaty' )
+	);
 
-            🛠️ <a href="https://grainsoft.pl/#contact" target="_blank" rel="noopener noreferrer">
-                <?php esc_html_e( 'Need help with setup? Paid support available.', 'inpost-paczkomaty' ); ?>
-            </a>
-        </p>
-    </div>
-	<?php
+	// Settings first so it sits next to Deactivate.
+	array_unshift( $links, $settings_link );
+	$links[] = $donate_link;
+
+	return $links;
 }
 
-add_action( 'admin_notices', 'review_plugin_admin_notice__success' );
+add_filter( 'plugin_action_links_' . INPOST_PACZKOMATY_PLUGIN_BASENAME, 'inpost_paczkomaty_plugin_action_links' );
+
+/**
+ * Add review and paid-support links to the plugin meta row (under the description).
+ *
+ * @param array  $meta        Existing meta links.
+ * @param string $plugin_file Plugin file the row belongs to.
+ *
+ * @return array
+ */
+function inpost_paczkomaty_plugin_row_meta( $meta, $plugin_file ) {
+	if ( INPOST_PACZKOMATY_PLUGIN_BASENAME !== $plugin_file ) {
+		return $meta;
+	}
+
+	$meta[] = sprintf(
+		'<a href="%s" target="_blank" rel="noopener noreferrer">⭐ %s</a>',
+		esc_url( 'https://wordpress.org/support/plugin/inpost-paczkomaty/reviews/' ),
+		esc_html__( 'Oceń wtyczkę', 'inpost-paczkomaty' )
+	);
+
+	$meta[] = sprintf(
+		'<a href="%s" target="_blank" rel="noopener noreferrer">🛠️ %s</a>',
+		esc_url( 'https://grainsoft.pl/#kontakt' ),
+		esc_html__( 'Płatne wsparcie', 'inpost-paczkomaty' )
+	);
+
+	return $meta;
+}
+
+add_filter( 'plugin_row_meta', 'inpost_paczkomaty_plugin_row_meta', 10, 2 );
+
+/**
+ * Render the support / review card shown on the plugin settings page.
+ * Part of the page content rather than an admin notice, so it never
+ * interrupts other screens and does not need dismissing.
+ */
+function inpost_paczkomaty_render_support_card() {
+	?>
+    <div class="inpost-support-card">
+        <div class="inpost-support-card__text">
+            <h2>❤️ <?php esc_html_e( 'Dziękuję za korzystanie z mojej wtyczki', 'inpost-paczkomaty' ); ?></h2>
+            <p>
+				<?php esc_html_e( 'Wtyczka jest darmowa i rozwijana w moim wolnym czasie.', 'inpost-paczkomaty' ); ?>
+				<?php esc_html_e( 'Potrzebujesz pomocy z konfiguracją? Oferuję płatne wsparcie.', 'inpost-paczkomaty' ); ?>
+            </p>
+        </div>
+        <div class="inpost-support-card__actions">
+            <a class="button button-primary" href="https://wordpress.org/support/plugin/inpost-paczkomaty/reviews/"
+               target="_blank" rel="noopener noreferrer">
+                ⭐ <?php esc_html_e( 'Oceń wtyczkę', 'inpost-paczkomaty' ); ?>
+            </a>
+            <a class="button" href="https://suppi.pl/damian-ziarnik" target="_blank" rel="noopener noreferrer">
+                ☕ <?php esc_html_e( 'Wesprzyj rozwój wtyczki', 'inpost-paczkomaty' ); ?>
+            </a>
+            <a class="button" href="https://grainsoft.pl/#kontakt" target="_blank" rel="noopener noreferrer">
+                🛠️ <?php esc_html_e( 'Płatne wsparcie', 'inpost-paczkomaty' ); ?>
+            </a>
+        </div>
+    </div>
+    <style>
+        .inpost-support-card {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0;
+            padding: 18px 22px;
+            background: #fff;
+            border: 1px solid #dcdcde;
+            border-left: 4px solid #7f54b3;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+        }
+
+        .inpost-support-card__text {
+            flex: 1 1 260px;
+        }
+
+        .inpost-support-card__text h2 {
+            margin: 0 0 4px;
+            font-size: 15px;
+        }
+
+        .inpost-support-card__text p {
+            margin: 0;
+            color: #50575e;
+        }
+
+        .inpost-support-card__actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+    </style>
+	<?php
+}
 
 
 function save_shortcode_cart_checkout_ajax_handler() {

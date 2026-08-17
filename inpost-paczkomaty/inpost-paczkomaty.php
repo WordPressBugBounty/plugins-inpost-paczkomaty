@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Inpost Paczkomaty
  * Description: Plugin do obsługi paczkomatów inpost w woocommerce.
- * Version: 1.0.40
+ * Version: 1.0.41
  * Author: Damian Ziarnik
  * Author URI: https://grainsoft.pl/
  * Text Domain: inpost-paczkomaty
@@ -60,6 +60,7 @@ if ( inpost_paczkomaty_is_woocommerce_active() ) {
 
 	define( 'INPOST_PACZKOMATY_PLUGIN_URL', plugins_url( '', __FILE__ ) );
 	define( 'INPOST_PACZKOMATY_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+	define( 'INPOST_PACZKOMATY_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 	// -------------------------------------------------------------------------
 	// Declare WooCommerce feature compatibility.

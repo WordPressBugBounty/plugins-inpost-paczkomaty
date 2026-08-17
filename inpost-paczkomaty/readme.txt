@@ -5,7 +5,7 @@ Tags: inpost, paczkomaty, woocommerce, wysyłka, dostawa
 Requires at least: 5.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.40
+Stable tag: 1.0.41
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,6 +50,12 @@ Jeśli Inpost Paczkomaty pomogła Ci zaoszczędzić czas w Twoim sklepie, będę
 4. screenshot-4.png
 
 == Frequently Asked Questions ==
+
+= Gdzie znajdę ustawienia wtyczki? =
+
+Panel konfiguracyjny znajduje się w WooCommerce -> Inpost Paczkomaty. Najszybciej trafisz tam klikając link "Ustawienia" przy wtyczce na liście zainstalowanych wtyczek (Wtyczki -> Zainstalowane wtyczki).
+
+Pamiętaj, że to dwa różne miejsca: koszty i widoczność samej metody dostawy ustawiasz w strefach wysyłki (WooCommerce -> Ustawienia -> Wysyłka), a globalne opcje wtyczki (limity wagi/wymiarów, logo, adres wysyłki) w WooCommerce -> Inpost Paczkomaty.
 
 = Jak dodać Paczkomaty jako formę dostawy? =
 
@@ -112,7 +118,14 @@ Najprościej zostawiając ocenę ⭐⭐⭐⭐⭐ w zakładce [Reviews](https://w
 
 == Changelog ==
 
+= 1.0.41 =
+* Teksty w bloku wsparcia (ocena wtyczki, wsparcie rozwoju, płatne wsparcie) oraz link "Ustawienia" na liście wtyczek są teraz po polsku niezależnie od języka panelu – wtyczka jest kierowana na rynek polski.
+* Cały panel wykrywania trybu koszyka/checkoutu (badge trybu, opisy, informacja o konflikcie i ręczny wybór trybu) jest teraz po polsku na poziomie kodu – wcześniej te opisy mogły wyświetlać się po angielsku, jeśli WordPress użył niekompletnej paczki językowej z translate.wordpress.org zamiast tłumaczenia dołączonego do wtyczki.
+* Poprawka: link do kontaktu prowadzi teraz na właściwą sekcję strony (grainsoft.pl/#kontakt zamiast #contact).
+
 = 1.0.40 =
+* Nowe: na liście wtyczek pojawił się link "Ustawienia" (prowadzący prosto do konfiguracji) oraz linki do oceny wtyczki, wsparcia rozwoju i płatnego wsparcia technicznego.
+* Zmiana: informacja o wsparciu na stronie ustawień to teraz czytelna karta z przyciskami zamiast zwykłego powiadomienia – i nie pojawia się już jako notice na innych ekranach panelu.
 * Zgodność z WordPress 7.1 – przegląd wtyczki pod kątem zmian z tej wersji (iframowany edytor, client-side media processing, zmiany w @wordpress/components, trwały pasek narzędzi, aktualizacja jQuery UI do 1.14.2).
 * Nowe: deklaracja kompatybilności z HPOS (custom_order_tables) oraz blokowym koszykiem/checkoutem (cart_checkout_blocks) – wcześniej WooCommerce oznaczał wtyczkę jako niekompatybilną i mógł blokować włączenie HPOS, mimo że wtyczka w pełni je obsługuje.
 * Poprawka: wtyczka poprawnie wykrywa WooCommerce aktywowane sieciowo (network activated) na instalacjach multisite – wcześniej w takiej konfiguracji nie uruchamiała się w ogóle.
