@@ -2,22 +2,21 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Inpost Paczkomaty 1.0.41\n"
+"Project-Id-Version: Grainsoft – integracja z InPost Paczkomaty 1.0.42\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/inpost-paczkomaty\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-17T08:09:47+00:00\n"
+"POT-Creation-Date: 2026-08-20T08:01:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: inpost-paczkomaty\n"
 
 #. Plugin Name of the plugin
 #: inpost-paczkomaty.php
-#: inpost-paczkomaty.php:184
-msgid "Inpost Paczkomaty"
+msgid "Grainsoft – integracja z InPost Paczkomaty"
 msgstr ""
 
 #. Description of the plugin
@@ -275,6 +274,10 @@ msgstr ""
 
 #: includes/settings-inpost-paczkomaty.php:61
 msgid "Maximum order amount"
+msgstr ""
+
+#: inpost-paczkomaty.php:184
+msgid "Inpost Paczkomaty"
 msgstr ""
 
 #: inpost-paczkomaty.php:185

@@ -508,7 +508,7 @@ function save_shortcode_cart_checkout_cb( $args ) {
 	echo '<input type="button" class="button" variant="primary" id="shortcode_cart_checkout" value="' . __( "Restore", "inpost-paczkomaty" ) . '"></input>';
 
 	$message = __( "Are you sure? This will overwrite your cart and checkout settings and change them to the classic cart and checkout. It is recommended to make a backup!", "inpost-paczkomaty" );
-	wp_enqueue_script( 'save-checkout-script', plugin_dir_url( __FILE__ ) . 'js/save-checkout.js', array( 'jquery' ), '1.0.41', true );
+	wp_enqueue_script( 'save-checkout-script', plugin_dir_url( __FILE__ ) . 'js/save-checkout.js', array( 'jquery' ), '1.0.42', true );
 	wp_localize_script( 'save-checkout-script', 'custom_ajax_object', array(
 		'ajax_url' => admin_url( 'admin-ajax.php' ),
 		'nonce'    => wp_create_nonce( 'inpost_paczkomaty_restore_checkout' ),

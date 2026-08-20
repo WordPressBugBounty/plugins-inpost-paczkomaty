@@ -1,11 +1,11 @@
-=== Inpost Paczkomaty ===
+=== Grainsoft – integracja z InPost Paczkomaty ===
 Contributors: rimosfafora
 Donate link: https://suppi.pl/damian-ziarnik
 Tags: inpost, paczkomaty, woocommerce, wysyłka, dostawa
 Requires at least: 5.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.41
+Stable tag: 1.0.42
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,7 +13,7 @@ Dodaj Paczkomaty InPost jako formę dostawy w WooCommerce – wygodna mapka wybo
 
 == Description ==
 
-**Inpost Paczkomaty** to lekka, w pełni spolszczona wtyczka, która dodaje Paczkomaty InPost jako formę dostawy w sklepie WooCommerce. Klient wybiera paczkomat na wygodnej mapce (oficjalny GeoWidget InPost) bezpośrednio w koszyku lub w kasie, a Ty od razu widzisz wybrany punkt odbioru w panelu zamówienia, w mailu z potwierdzeniem i na stronie z podziękowaniem za zakup.
+**Grainsoft – integracja z InPost Paczkomaty** to lekka, w pełni spolszczona wtyczka, która dodaje Paczkomaty InPost jako formę dostawy w sklepie WooCommerce. Klient wybiera paczkomat na wygodnej mapce (oficjalny GeoWidget InPost) bezpośrednio w koszyku lub w kasie, a Ty od razu widzisz wybrany punkt odbioru w panelu zamówienia, w mailu z potwierdzeniem i na stronie z podziękowaniem za zakup.
 
 Wtyczka działa od razu po aktywacji – wystarczy dodać nową metodę wysyłki w ustawieniach WooCommerce, bez konfigurowania kluczy API czy dodatkowych usług zewnętrznych.
 
@@ -40,7 +40,11 @@ Kod wtyczki jest regularnie przeglądany pod kątem bezpieczeństwa – weryfika
 
 = Podoba Ci się wtyczka? =
 
-Jeśli Inpost Paczkomaty pomogła Ci zaoszczędzić czas w Twoim sklepie, będę ogromnie wdzięczny za zostawienie oceny ⭐⭐⭐⭐⭐ w zakładce [Reviews](https://wordpress.org/support/plugin/inpost-paczkomaty/reviews/) – to najprostszy sposób, żeby wtyczka trafiała do kolejnych właścicieli sklepów WooCommerce. Potrzebujesz dodatkowej funkcji, integracji z innym systemem albo pomocy z wdrożeniem u siebie? Zajrzyj do sekcji **Wsparcie** poniżej – realizuję również płatne zlecenia indywidualne.
+Jeśli ta wtyczka pomogła Ci zaoszczędzić czas w Twoim sklepie, będę ogromnie wdzięczny za zostawienie oceny ⭐⭐⭐⭐⭐ w zakładce [Reviews](https://wordpress.org/support/plugin/inpost-paczkomaty/reviews/) – to najprostszy sposób, żeby wtyczka trafiała do kolejnych właścicieli sklepów WooCommerce. Potrzebujesz dodatkowej funkcji, integracji z innym systemem albo pomocy z wdrożeniem u siebie? Zajrzyj do sekcji **Wsparcie** poniżej – realizuję również płatne zlecenia indywidualne.
+
+= Informacja =
+
+Niezależna integracja z usługami InPost. Wtyczka nie jest powiązana ani zatwierdzona przez InPost.
 
 == Screenshots ==
 
@@ -117,6 +121,11 @@ Realizuję płatne wdrożenia i modyfikacje szyte na miarę – dodatkowe pola, 
 Najprościej zostawiając ocenę ⭐⭐⭐⭐⭐ w zakładce [Reviews](https://wordpress.org/support/plugin/inpost-paczkomaty/reviews/) – to bezpośrednio pomaga innym właścicielom sklepów trafić na tę wtyczkę. Możesz też postawić mi [kawę ☕](https://suppi.pl/damian-ziarnik) albo zlecić płatne wsparcie/rozwój przez [grainsoft.pl](https://grainsoft.pl/#kontakt).
 
 == Changelog ==
+
+= 1.0.42 =
+* Zmiana nazwy wtyczki na "Grainsoft – integracja z InPost Paczkomaty" – nowa nazwa jest widoczna na stronie wtyczki w katalogu WordPress.org oraz na liście zainstalowanych wtyczek w panelu.
+* Nazwa metody dostawy w strefach wysyłki pozostaje bez zmian ("Inpost Paczkomaty"), więc skonfigurowane strefy, koszty i istniejące zamówienia działają dalej bez żadnych modyfikacji.
+* Dodano informację o niezależności wtyczki od firmy InPost.
 
 = 1.0.41 =
 * Teksty w bloku wsparcia (ocena wtyczki, wsparcie rozwoju, płatne wsparcie) oraz link "Ustawienia" na liście wtyczek są teraz po polsku niezależnie od języka panelu – wtyczka jest kierowana na rynek polski.

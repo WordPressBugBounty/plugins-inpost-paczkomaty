@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Inpost Paczkomaty 1.0.41\n"
+"Project-Id-Version: Inpost Paczkomaty 1.0.42\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/inpost-"
 "paczkomaty\n"
-"POT-Creation-Date: 2026-08-17T08:09:47+00:00\n"
+"POT-Creation-Date: 2026-08-20T08:01:38+00:00\n"
 "PO-Revision-Date: 2026-08-02 12:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: Polski\n"
@@ -18,9 +18,9 @@ msgstr ""
 "X-Domain: inpost-paczkomaty\n"
 
 #. Plugin Name of the plugin
-#: inpost-paczkomaty.php inpost-paczkomaty.php:184
-msgid "Inpost Paczkomaty"
-msgstr "Inpost Paczkomaty"
+#: inpost-paczkomaty.php
+msgid "Grainsoft – integracja z InPost Paczkomaty"
+msgstr "Grainsoft – integracja z InPost Paczkomaty"
 
 #. Description of the plugin
 #: inpost-paczkomaty.php
@@ -306,6 +306,10 @@ msgstr "Minimalna kwota zamówienia"
 #: includes/settings-inpost-paczkomaty.php:61
 msgid "Maximum order amount"
 msgstr "Maksymalna kwota zamówienia"
+
+#: inpost-paczkomaty.php:184
+msgid "Inpost Paczkomaty"
+msgstr "Inpost Paczkomaty"
 
 #: inpost-paczkomaty.php:185
 msgid "Paczkomaty inpost shipping method"

@@ -32,7 +32,7 @@ function inpost_paczkomaty_register_block_scripts() {
 		'inpost-paczkomaty-blocks',
 		INPOST_PACZKOMATY_PLUGIN_URL . '/js/paczkomat-blocks.js',
 		[ 'wp-element', 'wp-data', 'wp-plugins', 'wc-blocks-checkout', 'jquery', 'inpost-geowidget-sdk' ],
-		'1.0.41',
+		'1.0.42',
 		true
 	);
 
