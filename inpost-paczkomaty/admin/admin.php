@@ -61,6 +61,19 @@ function inpost_paczkomaty_sanitize_options( $input ) {
 		$output['ip_select_show_logo_img'] = esc_url_raw( $input['ip_select_show_logo_img'] );
 	}
 
+	$output['ip_geowidget_version'] = ( isset( $input['ip_geowidget_version'] ) && 'v5' === $input['ip_geowidget_version'] ) ? 'v5' : 'v4';
+
+	if ( isset( $input['ip_geowidget_token'] ) ) {
+		// Tokens are JWTs – never contain whitespace, which often sneaks in on paste.
+		$output['ip_geowidget_token'] = preg_replace( '/\s+/', '', sanitize_text_field( wp_unslash( $input['ip_geowidget_token'] ) ) );
+	}
+
+	$countries = isset( $input['ip_geowidget_countries'] ) && is_array( $input['ip_geowidget_countries'] )
+		? array_values( array_intersect( array_map( 'strval', $input['ip_geowidget_countries'] ), array_keys( inpost_paczkomaty_geowidget_countries() ) ) )
+		: array();
+
+	$output['ip_geowidget_countries'] = empty( $countries ) ? array( 'PL' ) : $countries;
+
 	return $output;
 }
 
@@ -87,6 +100,36 @@ function inpost_settings_init() {
 		'ip_detected_checkout_mode_cb',
 		'inpost_paczkomaty_settings',
 		'inpost_section_developers'
+	);
+
+	// GeoWidget version: v4 (no token, default) or v5 (token, multiple countries).
+	add_settings_field(
+		'ip_geowidget_version',
+		__( 'Wersja mapy (GeoWidget)', 'inpost-paczkomaty' ),
+		'ip_geowidget_version_cb',
+		'inpost_paczkomaty_settings',
+		'inpost_section_developers'
+	);
+	add_settings_field(
+		'ip_geowidget_token',
+		__( 'Token GeoWidget', 'inpost-paczkomaty' ),
+		'ip_geowidget_token_cb',
+		'inpost_paczkomaty_settings',
+		'inpost_section_developers',
+		array(
+			'label_for' => 'ip_geowidget_token',
+			'class'     => 'inpost-geowidget-v5-row',
+		)
+	);
+	add_settings_field(
+		'ip_geowidget_countries',
+		__( 'Kraje na mapie', 'inpost-paczkomaty' ),
+		'ip_geowidget_countries_cb',
+		'inpost_paczkomaty_settings',
+		'inpost_section_developers',
+		array(
+			'class' => 'inpost-geowidget-v5-row',
+		)
 	);
 
 	// Register a new field in the "inpost_section_developers" section, inside the "inpost_paczkomaty_settings" page.
@@ -307,6 +350,115 @@ function ip_detected_checkout_mode_cb() {
 }
 
 /**
+ * GeoWidget version field (v4 without token / v5 with token).
+ * Also toggles the v5-only rows (token, countries).
+ */
+function ip_geowidget_version_cb() {
+	$options = get_option( 'inpost_paczkomaty_options' );
+	$version = isset( $options['ip_geowidget_version'] ) && 'v5' === $options['ip_geowidget_version'] ? 'v5' : 'v4';
+	$token   = isset( $options['ip_geowidget_token'] ) ? $options['ip_geowidget_token'] : '';
+	?>
+	<fieldset>
+		<label style="display: block; margin-bottom: 8px;">
+			<input type="radio" name="inpost_paczkomaty_options[ip_geowidget_version]" value="v4" <?php checked( $version, 'v4' ); ?>>
+			<strong><?php esc_html_e( 'GeoWidget v4 – bez tokena', 'inpost-paczkomaty' ); ?></strong>
+			<span class="description"><?php esc_html_e( '(domyślnie) działa od razu, tylko paczkomaty w Polsce.', 'inpost-paczkomaty' ); ?></span>
+		</label>
+		<label style="display: block;">
+			<input type="radio" name="inpost_paczkomaty_options[ip_geowidget_version]" value="v5" <?php checked( $version, 'v5' ); ?>>
+			<strong><?php esc_html_e( 'GeoWidget v5 – z tokenem', 'inpost-paczkomaty' ); ?></strong>
+			<span class="description"><?php esc_html_e( 'nowa mapa InPost, możliwość pokazania punktów z wielu krajów. Wymaga tokena.', 'inpost-paczkomaty' ); ?></span>
+		</label>
+	</fieldset>
+
+	<?php if ( 'v5' === $version && '' === $token ) : ?>
+		<div class="notice notice-warning inline" style="margin: 10px 0 0;">
+			<p><?php esc_html_e( 'Wybrano GeoWidget v5, ale nie podano tokena. Dopóki token nie zostanie zapisany, klienci widzą mapę GeoWidget v4.', 'inpost-paczkomaty' ); ?></p>
+		</div>
+	<?php endif; ?>
+
+	<script>
+		jQuery( function ( $ ) {
+			var $radios = $( 'input[name="inpost_paczkomaty_options[ip_geowidget_version]"]' );
+
+			function toggleV5Rows() {
+				$( '.inpost-geowidget-v5-row' ).toggle( $radios.filter( ':checked' ).val() === 'v5' );
+			}
+
+			$radios.on( 'change', toggleV5Rows );
+			toggleV5Rows();
+		} );
+	</script>
+	<?php
+}
+
+/**
+ * GeoWidget v5 token field with instructions on how to obtain it.
+ *
+ * @param array $args Field args.
+ */
+function ip_geowidget_token_cb( $args ) {
+	$options = get_option( 'inpost_paczkomaty_options' );
+	$token   = isset( $options['ip_geowidget_token'] ) ? $options['ip_geowidget_token'] : '';
+	?>
+	<textarea
+		id="<?php echo esc_attr( $args['label_for'] ); ?>"
+		name="inpost_paczkomaty_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+		rows="4"
+		class="large-text code"
+		spellcheck="false"
+		autocomplete="off"><?php echo esc_textarea( $token ); ?></textarea>
+
+	<div class="description" style="margin-top: 8px; max-width: 760px;">
+		<p><strong><?php esc_html_e( 'Jak zdobyć token?', 'inpost-paczkomaty' ); ?></strong></p>
+		<ol style="margin-left: 1.5em;">
+			<li>
+				<?php
+				printf(
+					/* translators: %s: link to InPost Manager Paczek */
+					esc_html__( 'Zaloguj się do %s na konto firmowe, z którego nadajesz przesyłki.', 'inpost-paczkomaty' ),
+					'<a href="https://manager.paczkomaty.pl" target="_blank" rel="noopener noreferrer">Managera Paczek InPost</a>'
+				);
+				?>
+			</li>
+			<li><?php esc_html_e( 'Przejdź do: Moje konto → API.', 'inpost-paczkomaty' ); ?></li>
+			<li><?php esc_html_e( 'W sekcji GeoWidget wygeneruj token i podaj domenę sklepu:', 'inpost-paczkomaty' ); ?> <code><?php echo esc_html( wp_parse_url( home_url(), PHP_URL_HOST ) ); ?></code></li>
+			<li><?php esc_html_e( 'Skopiuj token GeoWidget, wklej go powyżej i zapisz ustawienia.', 'inpost-paczkomaty' ); ?></li>
+		</ol>
+		<p>
+			<?php esc_html_e( 'Token działa tylko na domenie, dla której został wygenerowany. Jest widoczny w kodzie strony sklepu, dlatego wklej tu wyłącznie token GeoWidget – nigdy token API ShipX.', 'inpost-paczkomaty' ); ?>
+		</p>
+		<p>
+			<?php esc_html_e( 'Jeśli na mapie mają być punkty spoza Polski, token musi obsługiwać GeoWidget międzynarodowy (InPost International). W razie wątpliwości zapytaj swojego opiekuna w InPost.', 'inpost-paczkomaty' ); ?>
+		</p>
+	</div>
+	<?php
+}
+
+/**
+ * GeoWidget v5 countries field.
+ */
+function ip_geowidget_countries_cb() {
+	$options  = get_option( 'inpost_paczkomaty_options' );
+	$selected = isset( $options['ip_geowidget_countries'] ) && is_array( $options['ip_geowidget_countries'] )
+		? $options['ip_geowidget_countries']
+		: array( 'PL' );
+	?>
+	<fieldset style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 6px; max-width: 760px;">
+		<?php foreach ( inpost_paczkomaty_geowidget_countries() as $code => $label ) : ?>
+			<label>
+				<input type="checkbox" name="inpost_paczkomaty_options[ip_geowidget_countries][]" value="<?php echo esc_attr( $code ); ?>" <?php checked( in_array( $code, $selected, true ) ); ?>>
+				<?php echo esc_html( $label ); ?>
+			</label>
+		<?php endforeach; ?>
+	</fieldset>
+	<p class="description">
+		<?php esc_html_e( 'Tylko dla GeoWidget v5. Gdy zaznaczona jest wyłącznie Polska, używany jest polski GeoWidget (token z Managera Paczek). Wybranie innego kraju przełącza na GeoWidget międzynarodowy. Pamiętaj, aby metoda wysyłki była dostępna w strefach wysyłki tych krajów.', 'inpost-paczkomaty' ); ?>
+	</p>
+	<?php
+}
+
+/**
  * Developers section callback function.
  *
  * @param array $args The settings array, defining title, id, callback.
@@ -508,7 +660,7 @@ function save_shortcode_cart_checkout_cb( $args ) {
 	echo '<input type="button" class="button" variant="primary" id="shortcode_cart_checkout" value="' . __( "Restore", "inpost-paczkomaty" ) . '"></input>';
 
 	$message = __( "Are you sure? This will overwrite your cart and checkout settings and change them to the classic cart and checkout. It is recommended to make a backup!", "inpost-paczkomaty" );
-	wp_enqueue_script( 'save-checkout-script', plugin_dir_url( __FILE__ ) . 'js/save-checkout.js', array( 'jquery' ), '1.0.42', true );
+	wp_enqueue_script( 'save-checkout-script', plugin_dir_url( __FILE__ ) . 'js/save-checkout.js', array( 'jquery' ), '1.0.43', true );
 	wp_localize_script( 'save-checkout-script', 'custom_ajax_object', array(
 		'ajax_url' => admin_url( 'admin-ajax.php' ),
 		'nonce'    => wp_create_nonce( 'inpost_paczkomaty_restore_checkout' ),

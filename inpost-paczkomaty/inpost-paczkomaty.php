@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Grainsoft – integracja z InPost Paczkomaty
  * Description: Plugin do obsługi paczkomatów inpost w woocommerce.
- * Version: 1.0.42
+ * Version: 1.0.43
  * Author: Damian Ziarnik
  * Author URI: https://grainsoft.pl/
  * Text Domain: inpost-paczkomaty
@@ -760,6 +760,9 @@ if ( inpost_paczkomaty_is_woocommerce_active() ) {
 	//   Classic checkout → includes/checkout-classic.php
 	//   Block checkout   → includes/checkout-blocks.php
 	// -------------------------------------------------------------------------
+
+	// GeoWidget loader (v4 / v5) – used by both checkout modes.
+	require_once INPOST_PACZKOMATY_PLUGIN_PATH . 'includes/geowidget.php';
 
 	if ( INPOST_PACZKOMATY_CLASSIC_CHECKOUT ) {
 		require_once INPOST_PACZKOMATY_PLUGIN_PATH . 'includes/checkout-classic.php';

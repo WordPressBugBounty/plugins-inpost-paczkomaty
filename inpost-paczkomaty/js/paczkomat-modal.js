@@ -38,98 +38,16 @@ jQuery(document).ready(function ($) {
         });
     }
 
-    window.easyPackAsyncInit = function () {
-        easyPack.init({
-            defaultLocale: 'pl',
-            mapType: 'osm',
-            searchType: 'osm',
-            points: {
-                types: ['parcel_locker']
-            },
-            map: {
-                initialTypes: ['parcel_locker']
-            }
-        });
+    // Delegated handler: the button is re-rendered by WooCommerce on
+    // updated_cart_totals / updated_checkout, so bind once on the body.
+    $(document.body).on('click', '.select-paczkomat-button', function (e) {
+        e.preventDefault();
 
-    };
-
-    $(".select-paczkomat-button").click(function () {
-
-        easyPack.modalMap(function (point, modal) {
-            modal.closeModal();
+        InpostMap.open(function (point) {
             renderSelectedPaczkomat(point);
-            if (point) {
-                $(".select-paczkomat-button").text("Zmień paczkomat");
-                sendPaczkomatSelection(point);
-            }
-        }, {width: 500, height: 600});
-    });
-
-
-    // used in cart when shipping method was changed
-    $( document.body ).on( 'updated_cart_totals', function(){
-        window.easyPackAsyncInit = function () {
-            easyPack.init({
-                defaultLocale: 'pl',
-                mapType: 'osm',
-                searchType: 'osm',
-                points: {
-                    types: ['parcel_locker']
-                },
-                map: {
-                    initialTypes: ['parcel_locker']
-                }
-            });
-
-        };
-
-        $(".select-paczkomat-button").click(function () {
-
-            easyPack.modalMap(function (point, modal) {
-                modal.closeModal();
-                renderSelectedPaczkomat(point);
-                if (point) {
-                    $(".select-paczkomat-button").text("Zmień paczkomat");
-                    sendPaczkomatSelection(point);
-                }
-            }, {width: 500, height: 600});
+            $(".select-paczkomat-button").text("Zmień paczkomat");
+            sendPaczkomatSelection(point);
         });
-
     });
-
-
-    // used in checkout
-    $( document.body ).on('updated_checkout', function(){
-        window.easyPackAsyncInit = function () {
-            easyPack.init({
-                defaultLocale: 'pl',
-                mapType: 'osm',
-                searchType: 'osm',
-                points: {
-                    types: ['parcel_locker']
-                },
-                map: {
-                    initialTypes: ['parcel_locker']
-                }
-            });
-
-        };
-
-        $(".select-paczkomat-button").click(function () {
-
-            easyPack.modalMap(function (point, modal) {
-                modal.closeModal();
-                renderSelectedPaczkomat(point);
-                if (point) {
-                    console.log(point);
-                    $(".select-paczkomat-button").text("Zmień paczkomat");
-                    sendPaczkomatSelection(point);
-                }
-            }, {width: 500, height: 600});
-        });
-
-    });
-
-
 
 });

@@ -20,33 +20,24 @@ function inpost_paczkomaty_register_block_scripts() {
 		return; // already registered – avoid duplicates
 	}
 
-	wp_register_script(
-		'inpost-geowidget-sdk',
-		'https://geowidget.easypack24.net/js/sdk-for-javascript.js',
-		[],
-		null,
-		true
-	);
+	// GeoWidget SDK (v4 or v5), its stylesheet and the shared InpostMap API.
+	inpost_paczkomaty_register_geowidget();
 
 	wp_register_script(
 		'inpost-paczkomaty-blocks',
 		INPOST_PACZKOMATY_PLUGIN_URL . '/js/paczkomat-blocks.js',
-		[ 'wp-element', 'wp-data', 'wp-plugins', 'wc-blocks-checkout', 'jquery', 'inpost-geowidget-sdk' ],
-		'1.0.42',
+		[ 'wp-element', 'wp-data', 'wp-plugins', 'wc-blocks-checkout', 'jquery', 'inpost-paczkomaty-map' ],
+		'1.0.43',
 		true
 	);
 
 	wp_localize_script(
 		'inpost-paczkomaty-blocks',
 		'inpostBlocksData',
-		[ 'ajaxUrl' => admin_url( 'admin-ajax.php' ) ]
-	);
-
-	wp_register_style(
-		'inpost-geowidget-css',
-		'https://geowidget.easypack24.net/css/easypack.css',
-		[],
-		null
+		[
+			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+			'nonce'   => wp_create_nonce( 'inpost_paczkomaty_nonce' ),
+		]
 	);
 }
 

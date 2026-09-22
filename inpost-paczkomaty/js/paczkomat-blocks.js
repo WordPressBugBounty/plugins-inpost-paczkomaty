@@ -43,30 +43,6 @@
 
     console.log( '[InPost] Using slot:', SlotShipping ? 'ExperimentalOrderShippingPackages' : 'ExperimentalOrderMeta (fallback)' );
 
-    // Track GeoWidget initialization state
-    var easyPackInitialized = false;
-
-    /**
-     * Initialize the InPost GeoWidget SDK.
-     * Called on first use to avoid premature initialization.
-     */
-    function initEasyPack() {
-        if ( easyPackInitialized || typeof easyPack === 'undefined' ) {
-            return;
-        }
-        easyPack.init({
-            defaultLocale: 'pl',
-            mapType:       'osm',
-            searchType:    'osm',
-            points: { types: ['parcel_locker'] },
-            map:    { initialTypes: ['parcel_locker'] }
-        });
-        easyPackInitialized = true;
-    }
-
-    // Define async init callback so the SDK can call it after loading
-    window.easyPackAsyncInit = initEasyPack;
-
     /**
      * Check whether the inpost_paczkomaty shipping method is currently selected.
      * WC Blocks store may use camelCase (methodId) OR snake_case (method_id)
@@ -108,12 +84,10 @@
         var selectedPaczkomat    = paczkomatState[0];
         var setSelectedPaczkomat = paczkomatState[1];
 
-        // Initialize GeoWidget SDK and restore previously selected paczkomat from session.
+        // Restore previously selected paczkomat from session.
         // Without this, a page refresh would clear the React state even though
         // the WooCommerce PHP session still holds the selection.
         useEffect( function () {
-            initEasyPack();
-
             jQuery.post( inpostBlocksData.ajaxUrl, { action: 'get_paczkomat_session', nonce: inpostBlocksData.nonce }, function ( response ) {
                 if ( response && response.success && response.data && response.data.name ) {
                     setSelectedPaczkomat({
@@ -145,22 +119,14 @@
         }
 
         /**
-         * Open the InPost modalMap for paczkomat selection.
+         * Open the paczkomat map (GeoWidget v4 or v5, see js/paczkomat-map.js).
          *
          * @param {Event} e
          */
         function openPaczkomatMap( e ) {
             e.preventDefault();
 
-            if ( typeof easyPack === 'undefined' ) {
-                console.error( 'InPost GeoWidget SDK is not loaded.' );
-                return;
-            }
-
-            initEasyPack();
-
-            easyPack.modalMap( function ( point, modal ) {
-                modal.closeModal();
+            InpostMap.open( function ( point ) {
                 setSelectedPaczkomat( point );
 
                 // Persist selection to WooCommerce session via existing AJAX handler
@@ -176,7 +142,7 @@
                     paczkomat_building_number: point.address_details.building_number,
                     paczkomat_flat_number:    point.address_details.flat_number,
                 });
-            }, { width: 500, height: 600 });
+            });
         }
 
         return el(

@@ -18,7 +18,14 @@ if ( ! defined( 'WPINC' ) ) {
 add_action( 'woocommerce_before_cart', 'inpost_paczkomaty_styles_and_scripts_before_cart' );
 
 function inpost_paczkomaty_styles_and_scripts_before_cart() {
-	wp_enqueue_script( 'inpost_js', 'https://geowidget.easypack24.net/js/sdk-for-javascript.js' );
+	inpost_paczkomaty_enqueue_classic_scripts();
+}
+
+/**
+ * Register and enqueue the GeoWidget (v4 or v5) and the classic modal script.
+ */
+function inpost_paczkomaty_enqueue_classic_scripts() {
+	inpost_paczkomaty_register_geowidget();
 
 	// Detect current protocol to build the correct admin-ajax URL.
 	$protocol       = isset( $_SERVER['HTTPS'] ) ? 'https://' : 'http://';
@@ -26,14 +33,14 @@ function inpost_paczkomaty_styles_and_scripts_before_cart() {
 
 	$modal_js_url = INPOST_PACZKOMATY_PLUGIN_URL . '/js/paczkomat-modal.js';
 
-	wp_register_script( 'paczkomat_modal', $modal_js_url, array( 'jquery' ) );
+	wp_register_script( 'paczkomat_modal', $modal_js_url, array( 'jquery', 'inpost-paczkomaty-map' ), '1.0.43' );
 	wp_localize_script( 'paczkomat_modal', 'ajax_options', array(
 		'admin_ajax_url' => $admin_ajax_url,
 		'nonce'          => wp_create_nonce( 'inpost_paczkomaty_nonce' ),
 	) );
-	wp_enqueue_script( 'paczkomat_modal', $modal_js_url, array( 'jquery' ) );
+	wp_enqueue_script( 'paczkomat_modal' );
 
-	wp_enqueue_style( 'inpost_paczkomaty_inpost_css', 'https://geowidget.easypack24.net/css/easypack.css' );
+	wp_enqueue_style( 'inpost-geowidget-css' );
 }
 
 // ---------------------------------------------------------------------------
@@ -43,21 +50,7 @@ function inpost_paczkomaty_styles_and_scripts_before_cart() {
 add_action( 'woocommerce_before_checkout_form', 'inpost_paczkomaty_styles_and_scripts_before_checkout' );
 
 function inpost_paczkomaty_styles_and_scripts_before_checkout() {
-	wp_enqueue_script( 'inpost_js', 'https://geowidget.easypack24.net/js/sdk-for-javascript.js' );
-
-	$protocol       = isset( $_SERVER['HTTPS'] ) ? 'https://' : 'http://';
-	$admin_ajax_url = admin_url( 'admin-ajax.php', $protocol );
-
-	$modal_js_url = INPOST_PACZKOMATY_PLUGIN_URL . '/js/paczkomat-modal.js';
-
-	wp_register_script( 'paczkomat_modal', $modal_js_url, array( 'jquery' ) );
-	wp_localize_script( 'paczkomat_modal', 'ajax_options', array(
-		'admin_ajax_url' => $admin_ajax_url,
-		'nonce'          => wp_create_nonce( 'inpost_paczkomaty_nonce' ),
-	) );
-	wp_enqueue_script( 'paczkomat_modal', $modal_js_url, array( 'jquery' ) );
-
-	wp_enqueue_style( 'inpost_paczkomaty_inpost_css', 'https://geowidget.easypack24.net/css/easypack.css' );
+	inpost_paczkomaty_enqueue_classic_scripts();
 }
 
 // ---------------------------------------------------------------------------

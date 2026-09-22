@@ -5,7 +5,7 @@ Tags: inpost, paczkomaty, woocommerce, wysyłka, dostawa
 Requires at least: 5.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.42
+Stable tag: 1.0.43
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,11 +15,12 @@ Dodaj Paczkomaty InPost jako formę dostawy w WooCommerce – wygodna mapka wybo
 
 **Grainsoft – integracja z InPost Paczkomaty** to lekka, w pełni spolszczona wtyczka, która dodaje Paczkomaty InPost jako formę dostawy w sklepie WooCommerce. Klient wybiera paczkomat na wygodnej mapce (oficjalny GeoWidget InPost) bezpośrednio w koszyku lub w kasie, a Ty od razu widzisz wybrany punkt odbioru w panelu zamówienia, w mailu z potwierdzeniem i na stronie z podziękowaniem za zakup.
 
-Wtyczka działa od razu po aktywacji – wystarczy dodać nową metodę wysyłki w ustawieniach WooCommerce, bez konfigurowania kluczy API czy dodatkowych usług zewnętrznych.
+Wtyczka działa od razu po aktywacji – wystarczy dodać nową metodę wysyłki w ustawieniach WooCommerce, bez konfigurowania kluczy API czy dodatkowych usług zewnętrznych. Jeśli chcesz korzystać z nowej mapy InPost (GeoWidget v5), np. aby pokazać paczkomaty także poza Polską, możesz ją włączyć w ustawieniach wtyczki po podaniu tokena GeoWidget.
 
 = Najważniejsze funkcje =
 
 * Mapka wyboru Paczkomatu (oficjalny GeoWidget InPost) w koszyku i podczas składania zamówienia.
+* Dwie wersje mapy do wyboru: **GeoWidget v4** (domyślnie, bez tokena, działa od razu – paczkomaty w Polsce) oraz **GeoWidget v5** (nowa mapa InPost z tokenem – możliwość pokazania punktów z wielu krajów, m.in. Niemiec, Austrii, Francji, Włoch, Hiszpanii czy Wielkiej Brytanii).
 * Automatyczna obsługa zarówno **klasycznego koszyka/checkoutu** (shortcode `[woocommerce_cart]` / `[woocommerce_checkout]`), jak i **nowego blokowego checkoutu WooCommerce Blocks** – wtyczka sama wykrywa, którego trybu używa Twój sklep.
 * Zapisywanie wybranego paczkomatu w zamówieniu, w mailu z potwierdzeniem oraz w panelu administratora przy zamówieniu.
 * Opcjonalne ustawienie wybranego paczkomatu jako adresu wysyłki zamówienia.
@@ -42,6 +43,18 @@ Kod wtyczki jest regularnie przeglądany pod kątem bezpieczeństwa – weryfika
 
 Jeśli ta wtyczka pomogła Ci zaoszczędzić czas w Twoim sklepie, będę ogromnie wdzięczny za zostawienie oceny ⭐⭐⭐⭐⭐ w zakładce [Reviews](https://wordpress.org/support/plugin/inpost-paczkomaty/reviews/) – to najprostszy sposób, żeby wtyczka trafiała do kolejnych właścicieli sklepów WooCommerce. Potrzebujesz dodatkowej funkcji, integracji z innym systemem albo pomocy z wdrożeniem u siebie? Zajrzyj do sekcji **Wsparcie** poniżej – realizuję również płatne zlecenia indywidualne.
 
+= Wsparcie =
+
+Wtyczka jest darmowa i rozwijana w moim wolnym czasie. Jeśli pomogła Ci zaoszczędzić czas lub zarobić pieniądze w Twoim sklepie, poniżej znajdziesz kilka sposobów, jak możesz się odwdzięczyć i pomóc jej dalej się rozwijać:
+
+* [Zostaw ocenę ⭐⭐⭐⭐⭐ na WordPress.org](https://wordpress.org/support/plugin/inpost-paczkomaty/reviews/) – to zajmuje minutę, a realnie pomaga innym właścicielom sklepów znaleźć tę wtyczkę.
+* [Postaw mi kawę ☕](https://suppi.pl/damian-ziarnik) – wspiera dalszy, darmowy rozwój wtyczki.
+* [Zleć płatne wsparcie techniczne lub customową funkcję 🛠️](https://grainsoft.pl/#kontakt) – pomagam z wdrożeniem, konfiguracją oraz rozwijam wtyczkę pod indywidualne potrzeby (dodatkowe integracje, zmiany w działaniu, dedykowane funkcje).
+
+Masz pytanie techniczne? Najpierw sprawdź sekcję FAQ, a jeśli nie znajdziesz odpowiedzi – zapraszam do zakładki [Support](https://wordpress.org/support/plugin/inpost-paczkomaty/).
+
+Dziękuję za korzystanie z wtyczki!
+
 = Informacja =
 
 Niezależna integracja z usługami InPost. Wtyczka nie jest powiązana ani zatwierdzona przez InPost.
@@ -59,7 +72,7 @@ Niezależna integracja z usługami InPost. Wtyczka nie jest powiązana ani zatwi
 
 Panel konfiguracyjny znajduje się w WooCommerce -> Inpost Paczkomaty. Najszybciej trafisz tam klikając link "Ustawienia" przy wtyczce na liście zainstalowanych wtyczek (Wtyczki -> Zainstalowane wtyczki).
 
-Pamiętaj, że to dwa różne miejsca: koszty i widoczność samej metody dostawy ustawiasz w strefach wysyłki (WooCommerce -> Ustawienia -> Wysyłka), a globalne opcje wtyczki (limity wagi/wymiarów, logo, adres wysyłki) w WooCommerce -> Inpost Paczkomaty.
+Pamiętaj, że to dwa różne miejsca: koszty i widoczność samej metody dostawy ustawiasz w strefach wysyłki (WooCommerce -> Ustawienia -> Wysyłka), a globalne opcje wtyczki (wersja mapy, limity wagi/wymiarów, logo, adres wysyłki) w WooCommerce -> Inpost Paczkomaty.
 
 = Jak dodać Paczkomaty jako formę dostawy? =
 
@@ -79,6 +92,31 @@ Nie. Wtyczka wykrywa to automatycznie na podstawie zawartości stron koszyka i c
 = Używam nowego, blokowego koszyka/checkoutu WooCommerce – czy muszę coś ustawiać? =
 
 Nie, selektor paczkomatu pojawi się automatycznie w sekcji wysyłki bloku koszyka/checkoutu po wybraniu formy dostawy Inpost Paczkomaty – nie trzeba nic dodawać ręcznie w edytorze strony.
+
+= Czym różni się GeoWidget v4 od v5 i którą wersję wybrać? =
+
+W panelu WooCommerce -> Inpost Paczkomaty w polu "Wersja mapy (GeoWidget)" możesz wybrać jedną z dwóch map InPost:
+
+* **GeoWidget v4 – bez tokena** (domyślnie) – działa od razu po instalacji, nie wymaga żadnej konfiguracji i pokazuje paczkomaty w Polsce. Jeśli sprzedajesz tylko w Polsce, zostaw tę opcję.
+* **GeoWidget v5 – z tokenem** – nowa wersja mapy InPost. Wymaga podania tokena GeoWidget i pozwala wybrać, z jakich krajów punkty mają być widoczne na mapie.
+
+Jeśli wybierzesz v5, ale nie wkleisz tokena, klienci nadal zobaczą mapę v4 – sklep nigdy nie zostanie bez działającej mapy.
+
+= Skąd wziąć token do GeoWidget v5? =
+
+Zaloguj się do Managera Paczek InPost (manager.paczkomaty.pl) na konto firmowe, przejdź do Moje konto -> API i w sekcji GeoWidget wygeneruj token dla domeny swojego sklepu. Skopiuj go i wklej w polu "Token GeoWidget" w ustawieniach wtyczki. Instrukcja jest też wyświetlana bezpośrednio pod polem tokena.
+
+Token działa tylko na domenie, dla której został wygenerowany. Wklej tam wyłącznie token GeoWidget – nigdy token API ShipX, ponieważ token GeoWidget jest widoczny w kodzie strony sklepu.
+
+= Czy mogę pokazać paczkomaty z innych krajów niż Polska? =
+
+Tak, w GeoWidget v5. Po wybraniu v5 zaznacz w polu "Kraje na mapie" kraje, z których punkty mają być widoczne. Gdy zaznaczona jest tylko Polska, używana jest polska mapa InPost; wybranie innego kraju przełącza na mapę międzynarodową (token musi obsługiwać InPost International).
+
+Pamiętaj też, aby dodać metodę dostawy "Inpost Paczkomaty" w strefach wysyłki obejmujących te kraje oraz aby mieć z InPost umowę pozwalającą nadawać przesyłki do punktów za granicą – sama mapa nie wystarczy do realizacji wysyłki.
+
+= Mapa GeoWidget v5 jest pusta albo się nie ładuje – co zrobić? =
+
+Najczęstsze przyczyny to: nieprawidłowy lub niepełny token (sprawdź, czy został skopiowany w całości), token wygenerowany dla innej domeny niż domena sklepu (np. bez/z "www" lub dla wersji testowej sklepu) albo token, który nie obsługuje mapy międzynarodowej, gdy zaznaczono kraje spoza Polski. Aby szybko przywrócić działanie sklepu, przełącz wersję mapy z powrotem na GeoWidget v4.
 
 = Jak ustawić wybrany paczkomat jako adres wysyłki zamówienia? =
 
@@ -121,6 +159,15 @@ Realizuję płatne wdrożenia i modyfikacje szyte na miarę – dodatkowe pola, 
 Najprościej zostawiając ocenę ⭐⭐⭐⭐⭐ w zakładce [Reviews](https://wordpress.org/support/plugin/inpost-paczkomaty/reviews/) – to bezpośrednio pomaga innym właścicielom sklepów trafić na tę wtyczkę. Możesz też postawić mi [kawę ☕](https://suppi.pl/damian-ziarnik) albo zlecić płatne wsparcie/rozwój przez [grainsoft.pl](https://grainsoft.pl/#kontakt).
 
 == Changelog ==
+
+= 1.0.43 =
+* Nowe: wybór wersji mapy w ustawieniach wtyczki – GeoWidget v4 (domyślnie, bez tokena, jak dotychczas) lub GeoWidget v5 (nowa mapa InPost wymagająca tokena GeoWidget).
+* Nowe: w GeoWidget v5 możliwość wyboru krajów, z których punkty są widoczne na mapie (Polska, Austria, Belgia, Francja, Hiszpania, Holandia, Luksemburg, Niemcy, Portugalia, Węgry, Wielka Brytania, Włochy).
+* Nowe: pole na token GeoWidget wraz z instrukcją, jak go zdobyć – pola tokena i krajów pojawiają się dopiero po wybraniu wersji v5.
+* Zabezpieczenie: jeśli wybrano GeoWidget v5, a token nie został podany, klienci widzą mapę v4, a w panelu wyświetla się ostrzeżenie.
+* Poprawka: w klasycznym koszyku/checkoucie każda aktualizacja koszyka dodawała kolejną obsługę kliknięcia przycisku "Wybierz paczkomat", przez co mapa mogła otwierać się kilka razy.
+* Poprawka: w checkoucie blokowym jedna ze ścieżek ładowania skryptu nie przekazywała nonce, co mogło blokować zapis wybranego paczkomatu.
+* Porządki w kodzie: skrypty mapy InPost są rejestrowane w jednym miejscu (includes/geowidget.php), a oba tryby checkoutu korzystają ze wspólnego skryptu js/paczkomat-map.js.
 
 = 1.0.42 =
 * Zmiana nazwy wtyczki na "Grainsoft – integracja z InPost Paczkomaty" – nowa nazwa jest widoczna na stronie wtyczki w katalogu WordPress.org oraz na liście zainstalowanych wtyczek w panelu.
@@ -228,8 +275,6 @@ Najprościej zostawiając ocenę ⭐⭐⭐⭐⭐ w zakładce [Reviews](https://w
 = 1.0.23 =
 * Przeniesienie zakładki z ustawieniami do podmenu woocommerce
 * Poprawa tłumaczeń
-
-= 1.0.23 =
 * Dodanie meta_data aby zamówienia integrowały się z baselinkerem
 
 = 1.0.22 =
@@ -322,16 +367,3 @@ Najprościej zostawiając ocenę ⭐⭐⭐⭐⭐ w zakładce [Reviews](https://w
 * Mapka do paczkomatów w koszyku oraz checkoucie.
 * Zapisywanie do panelu.
 * Zapamiętywanie ostatniego wybranego paczkomatu.
-
-
-== Support ==
-
-Wtyczka jest darmowa i rozwijana w moim wolnym czasie. Jeśli pomogła Ci zaoszczędzić czas lub zarobić pieniądze w Twoim sklepie, poniżej znajdziesz kilka sposobów, jak możesz się odwdzięczyć i pomóc jej dalej się rozwijać:
-
-* [Zostaw ocenę ⭐⭐⭐⭐⭐ na WordPress.org](https://wordpress.org/support/plugin/inpost-paczkomaty/reviews/) – to zajmuje minutę, a realnie pomaga innym właścicielom sklepów znaleźć tę wtyczkę.
-* [Postaw mi kawę ☕](https://suppi.pl/damian-ziarnik) – wspiera dalszy, darmowy rozwój wtyczki.
-* [Zleć płatne wsparcie techniczne lub customową funkcję 🛠️](https://grainsoft.pl/#kontakt) – pomagam z wdrożeniem, konfiguracją oraz rozwijam wtyczkę pod indywidualne potrzeby (dodatkowe integracje, zmiany w działaniu, dedykowane funkcje).
-
-Masz pytanie techniczne? Najpierw sprawdź sekcję FAQ powyżej, a jeśli nie znajdziesz odpowiedzi – zapraszam do zakładki [Support](https://wordpress.org/support/plugin/inpost-paczkomaty/).
-
-Dziękuję za korzystanie z wtyczki!

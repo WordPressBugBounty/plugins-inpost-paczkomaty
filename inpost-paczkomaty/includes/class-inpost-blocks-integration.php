@@ -17,7 +17,7 @@ class Inpost_Paczkomaty_Blocks_Integration implements IntegrationInterface {
 	 *
 	 * @var string
 	 */
-	private $version = '1.0.42';
+	private $version = '1.0.43';
 
 	/**
 	 * Returns the integration's unique name.
@@ -34,48 +34,9 @@ class Inpost_Paczkomaty_Blocks_Integration implements IntegrationInterface {
 	 * @return void
 	 */
 	public function initialize() {
-		// Register InPost GeoWidget SDK (loaded in footer to avoid render-blocking)
-		wp_register_script(
-			'inpost-geowidget-sdk',
-			'https://geowidget.easypack24.net/js/sdk-for-javascript.js',
-			[],
-			null,
-			true
-		);
+		// Registers the GeoWidget SDK (v4 or v5), the shared map script and the block script.
+		inpost_paczkomaty_register_block_scripts();
 
-		// Register block integration script
-		wp_register_script(
-			'inpost-paczkomaty-blocks',
-			INPOST_PACZKOMATY_PLUGIN_URL . '/js/paczkomat-blocks.js',
-			[
-				'wp-element',
-				'wp-data',
-				'wp-plugins',
-				'wc-blocks-checkout',
-				'jquery',
-				'inpost-geowidget-sdk',
-			],
-			$this->version,
-			true
-		);
-
-		// Pass AJAX URL and nonce to the block script
-		wp_localize_script(
-			'inpost-paczkomaty-blocks',
-			'inpostBlocksData',
-			[
-				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-				'nonce'   => wp_create_nonce( 'inpost_paczkomaty_nonce' ),
-			]
-		);
-
-		// Register and enqueue InPost GeoWidget styles
-		wp_register_style(
-			'inpost-geowidget-css',
-			'https://geowidget.easypack24.net/css/easypack.css',
-			[],
-			null
-		);
 		wp_enqueue_style( 'inpost-geowidget-css' );
 	}
 
